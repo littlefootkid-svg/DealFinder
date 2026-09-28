@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>DealFinder</title>
 
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
+      background: #f3f4f6;
+      color: #111827;
     }
 
     header {
       background: #111827;
       color: white;
-      padding: 18px;
-      text-align: center;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 32px;
+      font-size: 26px;
     }
 
     header span {
       color: #22c55e;
     }
 
-    .hero {
-      max-width: 1100px;
-      margin: 25px auto;
-      padding: 40px 25px;
+    .saved-count {
+      background: #22c55e;
+      color: #07130b;
+      padding: 7px 12px;
       border-radius: 20px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
       color: white;
-      background: linear-gradient(135deg, #111827, #2563eb);
+      padding: 55px 20px;
+      text-align: center;
     }
 
     .hero h2 {
       font-size: 42px;
-      margin: 0 0 10px;
+      margin-bottom: 12px;
     }
 
     .hero p {
+      color: #d1d5db;
       font-size: 18px;
-      line-height: 1.5;
+      max-width: 650px;
+      margin: auto;
     }
 
-    .search-box {
+    .search-panel {
       max-width: 1100px;
-      margin: 20px auto;
-      padding: 18px;
+      margin: -25px auto 30px;
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px #0001;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      position: relative;
+      z-index: 5;
+    }
+
+    .search-row {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr auto;
       gap: 10px;
@@ -68,196 +87,334 @@
     input,
     select,
     button {
-      padding: 13px;
-      border-radius: 9px;
-      font-size: 16px;
+      font: inherit;
     }
 
     input,
     select {
-      border: 1px solid #ccd2dc;
-      background: white;
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      outline: none;
     }
 
-    button {
+    input:focus,
+    select:focus {
+      border-color: #22c55e;
+    }
+
+    .search-btn {
+      background: #22c55e;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-weight: bold;
       cursor: pointer;
     }
 
-    .search-button {
-      border: none;
-      background: #2563eb;
-      color: white;
-      font-weight: bold;
+    .search-btn:hover {
+      background: #16a34a;
     }
 
     .source-buttons {
-      max-width: 1100px;
-      margin: 20px auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .source-button {
+    .source-buttons button {
+      flex: 1;
+      padding: 12px;
       border: none;
-      color: white;
+      border-radius: 10px;
+      cursor: pointer;
       font-weight: bold;
-      min-height: 60px;
-      font-size: 17px;
     }
 
-    .trade-button {
-      background: #e53935;
+    .trade-btn {
+      background: #facc15;
     }
 
-    .facebook-button {
-      background: #1877f2;
+    .facebook-btn {
+      background: #3b82f6;
+      color: white;
     }
 
-    .results {
+    main {
       max-width: 1100px;
-      margin: 30px auto;
+      margin: auto;
+      padding: 0 20px 50px;
     }
 
-    .status {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 12px;
-      color: #475569;
+    .top-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
     }
 
-    .grid {
+    .top-line h2 {
+      font-size: 24px;
+    }
+
+    #status {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .listings {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
-    .card {
+    .listing-card {
       background: white;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 15px #0001;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+      position: relative;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 22px #0002;
+    .listing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.14);
     }
 
-    .image {
-      height: 190px;
-      background: linear-gradient(135deg, #dbeafe, #e5e7eb);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 65px;
-      overflow: hidden;
-    }
-
-    .image img {
+    .listing-image {
       width: 100%;
-      height: 100%;
+      height: 190px;
       object-fit: cover;
+      background: #e5e7eb;
+      display: block;
     }
 
-    .content {
-      padding: 17px;
+    .no-image {
+      height: 190px;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 45px;
     }
 
-    .content h3 {
-      margin: 0 0 8px;
-      padding-right: 45px;
+    .listing-content {
+      padding: 16px;
     }
 
-    .description {
-      color: #475569;
-      line-height: 1.5;
-      margin: 12px 0;
-      font-size: 14px;
+    .listing-title {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      padding-right: 30px;
     }
 
     .price {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: bold;
       color: #16a34a;
-      margin: 10px 0;
+      margin-bottom: 8px;
     }
 
-    .details {
-      color: #64748b;
-      line-height: 1.6;
+    .location {
+      color: #6b7280;
+      margin-bottom: 10px;
     }
 
-    .deal {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 10px;
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: #f3f4f6;
       border-radius: 20px;
-      background: #dcfce7;
-      color: #166534;
-      font-weight: bold;
-      font-size: 13px;
+      padding: 5px 8px;
+      font-size: 12px;
+      color: #374151;
     }
 
     .source {
-      display: inline-block;
-      margin-top: 8px;
-      margin-left: 5px;
-      padding: 6px 10px;
-      border-radius: 20px;
-      background: #eef2ff;
-      color: #3730a3;
-      font-size: 13px;
-      font-weight: bold;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #6b7280;
     }
 
-    .save {
-      float: right;
+    .heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
       border: none;
-      background: #eef2ff;
+      border-radius: 50%;
+      background: white;
+      font-size: 21px;
       cursor: pointer;
-      font-size: 22px;
-      padding: 8px 11px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      z-index: 3;
     }
 
-    .tap-text {
-      margin-top: 15px;
-      color: #2563eb;
-      font-weight: bold;
+    .heart.saved {
+      color: #ef4444;
     }
 
     .empty {
       background: white;
-      padding: 30px;
-      border-radius: 15px;
+      border-radius: 16px;
+      padding: 45px 20px;
       text-align: center;
+      color: #6b7280;
+      grid-column: 1 / -1;
     }
 
-    @media (max-width: 800px) {
+    /* MODAL */
 
-      .search-box {
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 500;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal.show {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 700px;
+      border-radius: 20px;
+      margin: 30px auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      background: #e5e7eb;
+    }
+
+    .modal-body {
+      padding: 25px;
+    }
+
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      font-size: 25px;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .modal-body h2 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .modal-price {
+      color: #16a34a;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .description {
+      line-height: 1.6;
+      color: #374151;
+      margin: 18px 0;
+      white-space: pre-wrap;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .detail {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    .detail strong {
+      display: block;
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .listing-link {
+      display: block;
+      text-align: center;
+      background: #111827;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .listing-link:hover {
+      background: #374151;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .listings {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .search-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .hero h2 {
+        font-size: 32px;
+      }
+
+      .listings {
         grid-template-columns: 1fr;
-        margin: 15px;
+      }
+
+      .search-row {
+        grid-template-columns: 1fr;
       }
 
       .source-buttons {
-        grid-template-columns: 1fr;
-        margin: 15px;
+        flex-direction: column;
       }
 
-      .hero,
-      .results {
-        margin-left: 15px;
-        margin-right: 15px;
-      }
-
-      .hero h2 {
-        font-size: 34px;
-      }
-
-      .grid {
+      .detail-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -268,878 +425,526 @@
 
 <header>
   <h1>Deal<span>Finder</span></h1>
+  <div class="saved-count">
+    ❤️ <span id="savedCount">0</span>
+  </div>
 </header>
 
-
 <section class="hero">
-
-  <h2>Find the deals.</h2>
-
+  <h2>Find the deal. 🚗</h2>
   <p>
-    Search cars, motorbikes and parts and let
-    DealFinder find listings worth checking out.
+    Search cars, motorbikes and parts in one place.
+    Find something cool without hunting through a million listings.
   </p>
-
 </section>
 
+<section class="search-panel">
 
-<section class="search-box">
+  <div class="search-row">
 
-  <input
-    id="search"
-    type="text"
-    placeholder="Try: S13 manual RWD"
-  >
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search S13, MX-5, CBR, SR20..."
+    />
 
-  <select id="category">
+    <select id="categorySelect">
+      <option value="">All categories</option>
+      <option value="Cars">Cars</option>
+      <option value="Motorbikes">Motorbikes</option>
+      <option value="Parts">Parts</option>
+    </select>
 
-    <option value="all">Everything</option>
-    <option value="Cars">Cars</option>
-    <option value="Motorbikes">Motorbikes</option>
-    <option value="Parts">Parts</option>
+    <input
+      id="maxPrice"
+      type="number"
+      placeholder="Max price NZ$"
+    />
 
-  </select>
+    <button class="search-btn" onclick="applyFilters()">
+      Search
+    </button>
 
-
-  <input
-    id="maxPrice"
-    type="number"
-    placeholder="Max NZ$"
-  >
-
-
-  <button
-    class="search-button"
-    onclick="searchDeals()"
-  >
-    🔎 Search
-  </button>
-
-</section>
-
-
-<section class="source-buttons">
-
-  <button
-    class="source-button trade-button"
-    onclick="searchTradeMe()"
-  >
-    🟠 Search Trade Me
-  </button>
-
-
-  <button
-    class="source-button facebook-button"
-    onclick="searchFacebook()"
-  >
-    f&nbsp;&nbsp; Search Facebook Marketplace
-  </button>
-
-</section>
-
-
-<section class="results">
-
-  <div
-    class="status"
-    id="status"
-  >
-    🔄 Loading DealFinder...
   </div>
 
+  <div class="source-buttons">
 
-  <h2 id="resultTitle">
-    Loading deals...
-  </h2>
+    <button class="trade-btn" onclick="openTradeMe()">
+      🟡 Search Trade Me
+    </button>
 
+    <button class="facebook-btn" onclick="openFacebook()">
+      🔵 Search Facebook Marketplace
+    </button>
 
-  <div
-    class="grid"
-    id="listings"
-  ></div>
+  </div>
 
 </section>
 
+<main>
 
-<!-- SUPABASE -->
+  <div class="top-line">
+    <h2>Listings</h2>
+    <div id="status">Loading...</div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <div id="listings" class="listings"></div>
 
+</main>
 
-<script>
+<footer>
+  DealFinder — find cool stuff without the endless scrolling.
+</footer>
 
-/* =====================================
-   SUPABASE INITIALIZATION
-===================================== */
+<!-- LISTING MODAL -->
 
-const SUPABASE_URL =
-  "https://lsjhxztfvxnukennnvgq.supabase.co";
+<div id="modal" class="modal">
 
+  <div class="modal-box">
 
-const SUPABASE_KEY =
-  "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
+    <button class="close" onclick="closeModal()">×</button>
 
+    <div id="modalImage"></div>
 
-const supabaseClient =
-  window.supabase.createClient(
+    <div class="modal-body">
+
+      <h2 id="modalTitle"></h2>
+
+      <div id="modalPrice" class="modal-price"></div>
+
+      <div id="modalDescription" class="description"></div>
+
+      <div class="detail-grid">
+
+        <div class="detail">
+          <strong>Category</strong>
+          <span id="modalCategory"></span>
+        </div>
+
+        <div class="detail">
+          <strong>Location</strong>
+          <span id="modalLocation"></span>
+        </div>
+
+        <div class="detail">
+          <strong>Source</strong>
+          <span id="modalSource"></span>
+        </div>
+
+        <div class="detail">
+          <strong>Last checked</strong>
+          <span id="modalChecked"></span>
+        </div>
+
+      </div>
+
+      <a
+        id="modalLink"
+        class="listing-link"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open original listing →
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script type="module">
+
+  /* =========================================================
+     SUPABASE
+     ========================================================= */
+
+  import {
+    createClient
+  } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const SUPABASE_URL =
+    "https://lsjhxztfvxnukennnvgq.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
+
+  const supabase = createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
 
-let listings = [];
+  /* =========================================================
+     STATE
+     ========================================================= */
+
+  let allListings = [];
+
+  let savedListings =
+    JSON.parse(localStorage.getItem("dealfinder_saved") || "[]");
 
 
-/* =====================================
-   DUMMY LISTINGS
-===================================== */
+  /* =========================================================
+     HELPERS
+     ========================================================= */
 
-const dummyListings = [
+  function escapeHTML(value) {
 
-  {
-    title: "Nissan Silvia S13",
-    price: 8500,
-    category: "Cars",
-    location: "Gisborne",
-    details: "Manual • RWD • Project car",
-    description:
-      "A lightweight rear-wheel-drive Nissan Silvia S13 project car. The manual gearbox and RWD layout make it an interesting starting point for a project build. Check the body, engine, rust, WOF and registration before buying.",
-    source: "Trade Me",
-    image_url: "",
-    listing_url: "#"
-  },
+    if (value === null || value === undefined) {
+      return "";
+    }
 
-
-  {
-    title: "Mazda MX-5 NA",
-    price: 9500,
-    category: "Cars",
-    location: "Napier",
-    details: "Manual • RWD • Convertible",
-    description:
-      "Classic Mazda MX-5 NA with a manual gearbox, rear-wheel drive and convertible body. A fun lightweight sports car with plenty of aftermarket support.",
-    source: "Facebook Marketplace",
-    image_url: "",
-    listing_url: "#"
-  },
-
-
-  {
-    title: "Toyota Altezza",
-    price: 7800,
-    category: "Cars",
-    location: "Hamilton",
-    details: "Manual • RWD • Sedan",
-    description:
-      "Toyota Altezza sedan with rear-wheel drive and a manual transmission. A practical-looking platform that can also be used as a project or enthusiast car.",
-    source: "Trade Me",
-    image_url: "",
-    listing_url: "#"
-  },
-
-
-  {
-    title: "Honda CBR125R",
-    price: 3200,
-    category: "Motorbikes",
-    location: "Auckland",
-    details: "Manual • Sport bike • 125cc",
-    description:
-      "Small-displacement Honda sport bike with a manual gearbox. The CBR125R has the styling of a larger sport bike while using a smaller engine.",
-    source: "Facebook Marketplace",
-    image_url: "",
-    listing_url: "#"
-  },
-
-
-  {
-    title: "Yamaha MT-125",
-    price: 5200,
-    category: "Motorbikes",
-    location: "Tauranga",
-    details: "Manual • Naked bike • 125cc",
-    description:
-      "Yamaha's compact MT-series naked bike. A lightweight motorcycle with upright styling and a manual transmission.",
-    source: "Trade Me",
-    image_url: "",
-    listing_url: "#"
-  },
-
-
-  {
-    title: "SR20DET Engine",
-    price: 4500,
-    category: "Parts",
-    location: "Wellington",
-    details: "Turbo • SR20 • Engine",
-    description:
-      "SR20DET turbocharged engine listed as a project component. The SR20 platform is commonly associated with Nissan performance builds. Check compression, condition, included parts and engine history before buying.",
-    source: "Facebook Marketplace",
-    image_url: "",
-    listing_url: "#"
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
-];
+
+  function money(value) {
+
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return "Price not listed";
+    }
+
+    const number = Number(
+      String(value).replace(/[^0-9.-]/g, "")
+    );
+
+    if (Number.isNaN(number)) {
+      return escapeHTML(value);
+    }
+
+    return "NZ$" +
+      number.toLocaleString("en-NZ");
+  }
 
 
-/* =====================================
-   LOAD LISTINGS
-===================================== */
+  function getListingId(listing) {
 
-async function loadListings() {
+    return String(
+      listing.id ||
+      listing.external_id ||
+      listing.listing_url ||
+      listing.url ||
+      listing.title
+    );
 
-  const status =
-    document.getElementById("status");
+  }
 
 
-  status.textContent =
-    "🔄 Loading listings from Supabase...";
+  function isSaved(listing) {
+
+    return savedListings.includes(
+      getListingId(listing)
+    );
+
+  }
 
 
-  const { data, error } =
-    await supabaseClient
-      .from("listings")
-      .select("*")
-      .order(
-        "created_at",
-        {
+  function saveState() {
+
+    localStorage.setItem(
+      "dealfinder_saved",
+      JSON.stringify(savedListings)
+    );
+
+    updateSavedCount();
+
+  }
+
+
+  function updateSavedCount() {
+
+    document.getElementById("savedCount").textContent =
+      savedListings.length;
+
+  }
+
+
+  /* =========================================================
+     LOAD REAL SUPABASE LISTINGS
+     ========================================================= */
+
+  async function loadListings() {
+
+    const status =
+      document.getElementById("status");
+
+    status.textContent = "Loading listings...";
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabase
+        .from("listings")
+        .select("*")
+        .order("created_at", {
           ascending: false
-        }
-      );
+        });
 
+      if (error) {
+        throw error;
+      }
 
-  if (error) {
+      allListings = data || [];
 
-    console.error(error);
+      renderListings(allListings);
 
-    status.textContent =
-      "⚠️ Using DealFinder demo listings.";
+      status.textContent =
+        `${allListings.length} listing${allListings.length === 1 ? "" : "s"}`;
 
-    listings = dummyListings;
+    } catch (error) {
 
-    showListings(listings);
+      console.error(error);
 
-    return;
-  }
+      status.textContent =
+        "Could not load listings";
 
-
-  /*
-    If Supabase has listings, use them.
-    If it is empty, show the dummy listings.
-  */
-
-  if (data && data.length > 0) {
-
-    listings = data;
-
-    status.textContent =
-      "🟢 DealFinder database connected.";
-
-  } else {
-
-    listings = dummyListings;
-
-    status.textContent =
-      "🟢 Supabase connected • Demo listings loaded.";
-
-  }
-
-
-  showListings(listings);
-}
-
-
-/* =====================================
-   SHOW LISTINGS
-===================================== */
-
-function showListings(items) {
-
-  const container =
-    document.getElementById("listings");
-
-
-  const title =
-    document.getElementById("resultTitle");
-
-
-  title.textContent =
-    items.length +
-    " Deal" +
-    (items.length === 1 ? "" : "s");
-
-
-  container.innerHTML = "";
-
-
-  if (items.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        <h3>
-          No deals found.
-        </h3>
-
-        <p>
-          Try changing your search.
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-  }
-
-
-  items.forEach(
-    (item, index) => {
-
-      const imageHTML =
-        item.image_url
-
-          ? `
-
-            <img
-              src="${escapeHTML(item.image_url)}"
-              alt="${escapeHTML(item.title)}"
-            >
-
-          `
-
-          : getIcon(item.category);
-
-
-      const price =
-        item.price != null
-
-          ? "NZ$" +
-            Number(item.price)
-              .toLocaleString()
-
-          : "Price unavailable";
-
-
-      const location =
-        item.location ||
-        "Location unavailable";
-
-
-      const details =
-        item.details ||
-        "No details available";
-
-
-      const description =
-        item.description ||
-        "No description available.";
-
-
-      const source =
-        item.source ||
-        "DealFinder";
-
-
-      const deal =
-        getDealLabel(item.price);
-
-
-      container.innerHTML += `
-
-        <article
-          class="card"
-          onclick="openListing(${index})"
-          style="cursor:pointer"
-        >
-
-          <div class="image">
-
-            ${imageHTML}
-
-          </div>
-
-
-          <div class="content">
-
-            <button
-              class="save"
-              onclick="
-                event.stopPropagation();
-                toggleSave(this);
-              "
-            >
-              ♡
-            </button>
-
-
-            <h3>
-              ${escapeHTML(item.title)}
-            </h3>
-
-
-            <div class="price">
-              ${price}
-            </div>
-
-
-            <div class="details">
-
-              📍
-              ${escapeHTML(location)}
-
-              <br>
-
-              ${escapeHTML(details)}
-
-            </div>
-
-
-            <div class="description">
-
-              ${escapeHTML(description)}
-
-            </div>
-
-
-            <span class="deal">
-              ${deal}
-            </span>
-
-
-            <span class="source">
-              ${escapeHTML(source)}
-            </span>
-
-
-            <div class="tap-text">
-              Tap to view full listing →
-            </div>
-
-          </div>
-
-        </article>
-
+      document.getElementById("listings").innerHTML = `
+        <div class="empty">
+          <h3>⚠️ Couldn't load listings</h3>
+          <p>
+            Check your Supabase connection and make sure
+            the <strong>listings</strong> table exists.
+          </p>
+        </div>
       `;
 
     }
-  );
-}
 
-
-/* =====================================
-   OPEN LISTING
-===================================== */
-
-function openListing(index) {
-
-  const item =
-    listings[index];
-
-
-  if (!item) {
-    return;
   }
 
 
-  const price =
-    item.price != null
+  /* =========================================================
+     RENDER LISTINGS
+     ========================================================= */
 
-      ? "NZ$" +
-        Number(item.price)
-          .toLocaleString()
+  function renderListings(listings) {
 
-      : "Price unavailable";
+    const container =
+      document.getElementById("listings");
 
+    if (!listings.length) {
 
-  const imageHTML =
-    item.image_url
-
-      ? `
-
-        <img
-          src="${escapeHTML(item.image_url)}"
-          alt="${escapeHTML(item.title)}"
-          style="
-            width:100%;
-            max-height:300px;
-            object-fit:cover;
-            border-radius:15px;
-          "
-        >
-
-      `
-
-      : `
-
-        <div
-          style="
-            height:220px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:90px;
-            background:#e5e7eb;
-            border-radius:15px;
-          "
-        >
-
-          ${getIcon(item.category)}
-
+      container.innerHTML = `
+        <div class="empty">
+          <h3>No listings found 😭</h3>
+          <p>
+            Try another search or check back when
+            new listings are added.
+          </p>
         </div>
-
       `;
 
+      return;
+    }
 
-  const location =
-    item.location ||
-    "Unknown location";
 
+    container.innerHTML =
+      listings.map((listing, index) => {
 
-  const details =
-    item.details ||
-    "No extra details available.";
+        const title =
+          listing.title || "Untitled listing";
 
+        const price =
+          listing.price;
 
-  const description =
-    item.description ||
-    "No description available.";
+        const description =
+          listing.description ||
+          "No description available.";
 
+        const category =
+          listing.category ||
+          "Other";
 
-  const source =
-    item.source ||
-    "Unknown source";
+        const location =
+          listing.location ||
+          "Location not listed";
 
+        const source =
+          listing.source ||
+          "Unknown source";
 
-  const category =
-    item.category ||
-    "Unknown category";
+        const image =
+          listing.image_url ||
+          listing.image ||
+          "";
 
+        const saved =
+          isSaved(listing);
 
-  const deal =
-    getDealLabel(item.price);
 
+        return `
 
-  const modal =
-    document.createElement("div");
-
-
-  modal.id =
-    "listingModal";
-
-
-  modal.style.cssText = `
-
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.65);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:9999;
-
-  `;
-
-
-  modal.innerHTML = `
-
-    <div
-      style="
-        background:white;
-        width:100%;
-        max-width:650px;
-        max-height:90vh;
-        overflow:auto;
-        border-radius:20px;
-        padding:20px;
-        position:relative;
-      "
-    >
-
-
-      <button
-        onclick="closeListing()"
-        style="
-          position:absolute;
-          right:15px;
-          top:15px;
-          border:none;
-          background:#eef2f7;
-          border-radius:50%;
-          width:40px;
-          height:40px;
-          font-size:22px;
-          z-index:2;
-        "
-      >
-        ×
-      </button>
-
-
-      ${imageHTML}
-
-
-      <h2>
-        ${escapeHTML(item.title)}
-      </h2>
-
-
-      <div
-        style="
-          font-size:28px;
-          font-weight:bold;
-          color:#16a34a;
-          margin:10px 0;
-        "
-      >
-
-        ${price}
-
-      </div>
-
-
-      <p>
-
-        📍
-        <strong>
-          Location:
-        </strong>
-
-        ${escapeHTML(location)}
-
-      </p>
-
-
-      <p>
-
-        🏷️
-        <strong>
-          Source:
-        </strong>
-
-        ${escapeHTML(source)}
-
-      </p>
-
-
-      <p>
-
-        🚘
-        <strong>
-          Category:
-        </strong>
-
-        ${escapeHTML(category)}
-
-      </p>
-
-
-      <hr>
-
-
-      <h3>
-        Description
-      </h3>
-
-
-      <p
-        style="
-          line-height:1.7;
-          color:#475569;
-        "
-      >
-
-        ${escapeHTML(description)}
-
-      </p>
-
-
-      <h3>
-        Vehicle details
-      </h3>
-
-
-      <p
-        style="
-          line-height:1.7;
-          color:#475569;
-        "
-      >
-
-        ${escapeHTML(details)}
-
-      </p>
-
-
-      <h3>
-        🤖 DealFinder analysis
-      </h3>
-
-
-      <div
-        style="
-          background:#eff6ff;
-          padding:15px;
-          border-radius:12px;
-          color:#1e40af;
-        "
-      >
-
-        <strong>
-          ${deal}
-        </strong>
-
-        <br><br>
-
-        DealFinder has identified this
-        listing as something worth
-        checking based on its price,
-        category and search details.
-
-      </div>
-
-
-      ${
-        item.listing_url &&
-        item.listing_url !== "#"
-
-          ? `
+          <article
+            class="listing-card"
+            onclick="openListing(${index})"
+          >
 
             <button
-              onclick="
-                window.open(
-                  '${escapeJS(item.listing_url)}',
-                  '_blank'
-                )
-              "
-              style="
-                width:100%;
-                margin-top:20px;
-                background:#111827;
-                color:white;
-                border:none;
-                font-weight:bold;
-              "
+              class="heart ${saved ? "saved" : ""}"
+              onclick="event.stopPropagation(); toggleSaved(${index})"
+              aria-label="Save listing"
             >
-
-              View original listing →
-
+              ${saved ? "❤️" : "♡"}
             </button>
 
-          `
+            ${
+              image
+              ?
+              `<img
+                class="listing-image"
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(title)}"
+                onerror="this.outerHTML='<div class=&quot;no-image&quot;>🚗</div>'"
+              >`
+              :
+              `<div class="no-image">🚗</div>`
+            }
 
-          : `
+            <div class="listing-content">
 
-            <button
-              disabled
-              style="
-                width:100%;
-                margin-top:20px;
-                background:#cbd5e1;
-                color:#475569;
-                border:none;
-                font-weight:bold;
-                cursor:not-allowed;
-              "
-            >
+              <div class="listing-title">
+                ${escapeHTML(title)}
+              </div>
 
-              Original listing link
-              coming soon
+              <div class="price">
+                ${money(price)}
+              </div>
 
-            </button>
+              <div class="location">
+                📍 ${escapeHTML(location)}
+              </div>
 
-          `
-      }
+              <div class="tags">
 
-    </div>
+                <span class="tag">
+                  ${escapeHTML(category)}
+                </span>
 
-  `;
+                ${
+                  listing.transmission
+                  ?
+                  `<span class="tag">
+                    ${escapeHTML(listing.transmission)}
+                  </span>`
+                  :
+                  ""
+                }
 
+                ${
+                  listing.drive
+                  ?
+                  `<span class="tag">
+                    ${escapeHTML(listing.drive)}
+                  </span>`
+                  :
+                  ""
+                }
 
-  document.body.appendChild(modal);
-}
+              </div>
 
+              <div class="source">
+                Source: ${escapeHTML(source)}
+              </div>
 
-/* =====================================
-   CLOSE LISTING
-===================================== */
+            </div>
 
-function closeListing() {
+          </article>
 
-  const modal =
-    document.getElementById(
-      "listingModal"
-    );
+        `;
 
+      }).join("");
 
-  if (modal) {
-    modal.remove();
   }
-}
 
 
-/* =====================================
-   SEARCH
-===================================== */
+  /* =========================================================
+     SEARCH / FILTER
+     ========================================================= */
 
-function searchDeals() {
+  window.applyFilters = function() {
 
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase()
-      .trim();
+    const search =
+      document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
 
+    const category =
+      document
+        .getElementById("categorySelect")
+        .value;
 
-  const category =
-    document
-      .getElementById("category")
-      .value;
-
-
-  const maxPrice =
-    Number(
+    const maxPriceValue =
       document
         .getElementById("maxPrice")
-        .value
-    ) || Infinity;
+        .value;
+
+    const maxPrice =
+      maxPriceValue
+      ?
+      Number(maxPriceValue)
+      :
+      Infinity;
 
 
-  const results =
-    listings.filter(
-      item => {
+    const filtered =
+      allListings.filter(listing => {
 
-        const text =
-          (
-            (item.title || "") +
-            " " +
-            (item.details || "") +
-            " " +
-            (item.description || "") +
-            " " +
-            (item.location || "") +
-            " " +
-            (item.category || "")
-          )
-          .toLowerCase();
+        const searchable = [
+
+          listing.title,
+          listing.description,
+          listing.category,
+          listing.location,
+          listing.source,
+          listing.transmission,
+          listing.drive
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+
+        const numberPrice =
+          Number(
+            String(listing.price || "")
+              .replace(/[^0-9.-]/g, "")
+          );
 
 
         const matchesSearch =
-          search === "" ||
-          text.includes(search);
+          !search ||
+          searchable.includes(search);
 
 
         const matchesCategory =
-          category === "all" ||
-          item.category === category;
+          !category ||
+          String(listing.category || "")
+            .toLowerCase() ===
+          category.toLowerCase();
 
 
         const matchesPrice =
-          item.price == null ||
-          Number(item.price) <= maxPrice;
+          !maxPriceValue ||
+          (
+            !Number.isNaN(numberPrice) &&
+            numberPrice <= maxPrice
+          );
 
 
         return (
@@ -1148,195 +953,399 @@ function searchDeals() {
           matchesPrice
         );
 
+      });
+
+
+    renderListings(filtered);
+
+    document.getElementById("status").textContent =
+      `${filtered.length} result${filtered.length === 1 ? "" : "s"}`;
+
+  };
+
+
+  /* =========================================================
+     SAVED LISTINGS
+     ========================================================= */
+
+  window.toggleSaved = function(index) {
+
+    const listing =
+      getCurrentlyDisplayedListings()[index];
+
+    if (!listing) return;
+
+    const id =
+      getListingId(listing);
+
+    if (savedListings.includes(id)) {
+
+      savedListings =
+        savedListings.filter(
+          savedId => savedId !== id
+        );
+
+    } else {
+
+      savedListings.push(id);
+
+    }
+
+    saveState();
+
+    applyFilters();
+
+  };
+
+
+  function getCurrentlyDisplayedListings() {
+
+    const search =
+      document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const category =
+      document
+        .getElementById("categorySelect")
+        .value;
+
+    const maxPriceValue =
+      document
+        .getElementById("maxPrice")
+        .value;
+
+    const maxPrice =
+      maxPriceValue
+      ?
+      Number(maxPriceValue)
+      :
+      Infinity;
+
+
+    return allListings.filter(listing => {
+
+      const searchable = [
+
+        listing.title,
+        listing.description,
+        listing.category,
+        listing.location,
+        listing.source,
+        listing.transmission,
+        listing.drive
+
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+
+      const numberPrice =
+        Number(
+          String(listing.price || "")
+            .replace(/[^0-9.-]/g, "")
+        );
+
+
+      return (
+
+        (!search ||
+          searchable.includes(search))
+
+        &&
+
+        (!category ||
+          String(listing.category || "")
+            .toLowerCase() ===
+          category.toLowerCase())
+
+        &&
+
+        (!maxPriceValue ||
+          (
+            !Number.isNaN(numberPrice) &&
+            numberPrice <= maxPrice
+          ))
+
+      );
+
+    });
+
+  }
+
+
+  /* =========================================================
+     OPEN LISTING
+     ========================================================= */
+
+  window.openListing = function(index) {
+
+    const listing =
+      getCurrentlyDisplayedListings()[index];
+
+    if (!listing) return;
+
+
+    document.getElementById("modalTitle").textContent =
+      listing.title || "Untitled listing";
+
+
+    document.getElementById("modalPrice").textContent =
+      money(listing.price);
+
+
+    document.getElementById("modalDescription").textContent =
+      listing.description ||
+      "No description available.";
+
+
+    document.getElementById("modalCategory").textContent =
+      listing.category ||
+      "Not listed";
+
+
+    document.getElementById("modalLocation").textContent =
+      listing.location ||
+      "Not listed";
+
+
+    document.getElementById("modalSource").textContent =
+      listing.source ||
+      "Unknown";
+
+
+    document.getElementById("modalChecked").textContent =
+      formatDate(
+        listing.last_checked ||
+        listing.updated_at ||
+        listing.created_at
+      );
+
+
+    const link =
+      listing.listing_url ||
+      listing.url ||
+      "#";
+
+
+    const modalLink =
+      document.getElementById("modalLink");
+
+    modalLink.href = link;
+
+
+    if (link === "#") {
+
+      modalLink.style.display = "none";
+
+    } else {
+
+      modalLink.style.display = "block";
+
+    }
+
+
+    const image =
+      listing.image_url ||
+      listing.image ||
+      "";
+
+
+    const modalImage =
+      document.getElementById("modalImage");
+
+
+    if (image) {
+
+      modalImage.innerHTML = `
+        <img
+          class="modal-image"
+          src="${escapeHTML(image)}"
+          alt="${escapeHTML(listing.title || "")}"
+        >
+      `;
+
+    } else {
+
+      modalImage.innerHTML = `
+        <div class="no-image">
+          🚗
+        </div>
+      `;
+
+    }
+
+
+    document
+      .getElementById("modal")
+      .classList.add("show");
+
+  };
+
+
+  /* =========================================================
+     CLOSE MODAL
+     ========================================================= */
+
+  window.closeModal = function() {
+
+    document
+      .getElementById("modal")
+      .classList.remove("show");
+
+  };
+
+
+  document
+    .getElementById("modal")
+    .addEventListener(
+      "click",
+      function(event) {
+
+        if (event.target === this) {
+          closeModal();
+        }
+
       }
     );
 
 
-  showListings(results);
-}
+  document.addEventListener(
+    "keydown",
+    function(event) {
 
+      if (event.key === "Escape") {
+        closeModal();
+      }
 
-/* =====================================
-   TRADE ME SEARCH
-===================================== */
-
-function searchTradeMe() {
-
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .trim();
-
-
-  const query =
-    search || "cars";
-
-
-  const url =
-    "https://www.trademe.co.nz/a/motors/cars/search" +
-    "?search_string=" +
-    encodeURIComponent(query);
-
-
-  window.open(
-    url,
-    "_blank"
+    }
   );
-}
 
 
-/* =====================================
-   FACEBOOK SEARCH
-===================================== */
+  /* =========================================================
+     DATE
+     ========================================================= */
 
-function searchFacebook() {
+  function formatDate(value) {
 
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .trim();
+    if (!value) {
+      return "Not available";
+    }
 
+    const date =
+      new Date(value);
 
-  const query =
-    search || "cars";
+    if (Number.isNaN(date.getTime())) {
+      return "Not available";
+    }
 
-
-  const url =
-    "https://www.facebook.com/marketplace/search/?query=" +
-    encodeURIComponent(query);
-
-
-  window.open(
-    url,
-    "_blank"
-  );
-}
-
-
-/* =====================================
-   SAVE BUTTON
-===================================== */
-
-function toggleSave(button) {
-
-  if (
-    button.textContent.trim()
-    === "♡"
-  ) {
-
-    button.textContent = "♥";
-
-    button.style.color =
-      "#ef4444";
-
-  } else {
-
-    button.textContent = "♡";
-
-    button.style.color = "";
-
-  }
-}
-
-
-/* =====================================
-   ICONS
-===================================== */
-
-function getIcon(category) {
-
-  if (
-    category === "Motorbikes"
-  ) {
-
-    return "🏍️";
+    return date.toLocaleString(
+      "en-NZ",
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }
+    );
 
   }
 
 
-  if (
-    category === "Parts"
-  ) {
+  /* =========================================================
+     TRADE ME SEARCH
+     ========================================================= */
 
-    return "⚙️";
+  window.openTradeMe = function() {
 
-  }
-
-
-  return "🚗";
-}
-
-
-/* =====================================
-   DEAL LABEL
-===================================== */
-
-function getDealLabel(price) {
-
-  if (!price) {
-    return "Check price";
-  }
+    const query =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim();
 
 
-  if (
-    Number(price) <= 5000
-  ) {
-
-    return "Good price";
-
-  }
+    const url =
+      "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
+      encodeURIComponent(query);
 
 
-  if (
-    Number(price) <= 10000
-  ) {
+    window.open(
+      url,
+      "_blank"
+    );
 
-    return "Potential deal";
-
-  }
-
-
-  return "Worth checking";
-}
+  };
 
 
-/* =====================================
-   SECURITY HELPERS
-===================================== */
+  /* =========================================================
+     FACEBOOK MARKETPLACE SEARCH
+     ========================================================= */
 
-function escapeHTML(value) {
+  window.openFacebook = function() {
 
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
+    const query =
+      document
+        .getElementById("searchInput")
+        .value
+        .trim();
 
 
-function escapeJS(value) {
-
-  return String(value ?? "")
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'")
-    .replace(/\n/g, "\\n")
-    .replace(/\r/g, "\\r");
-
-}
+    const url =
+      "https://www.facebook.com/marketplace/search/?query=" +
+      encodeURIComponent(query);
 
 
-/* =====================================
-   START DEALFINDER
-===================================== */
+    window.open(
+      url,
+      "_blank"
+    );
 
-loadListings();
+  };
+
+
+  /* =========================================================
+     ENTER KEY SEARCH
+     ========================================================= */
+
+  document
+    .getElementById("searchInput")
+    .addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          applyFilters();
+        }
+
+      }
+    );
+
+
+  document
+    .getElementById("maxPrice")
+    .addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          applyFilters();
+        }
+
+      }
+    );
+
+
+  /* =========================================================
+     START APP
+     ========================================================= */
+
+  updateSavedCount();
+
+  loadListings();
 
 </script>
-
 
 </body>
 </html>
