@@ -84,6 +84,32 @@
       cursor: pointer;
     }
 
+    .sources {
+      max-width: 1100px;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .source-button {
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 17px;
+    }
+
+    .trademe {
+      background: #e53935;
+    }
+
+    .facebook {
+      background: #1877f2;
+    }
+
     .results {
       max-width: 1100px;
       margin: 30px auto;
@@ -107,12 +133,12 @@
     }
 
     .image {
-      height: 160px;
+      height: 180px;
       background: linear-gradient(135deg, #dbeafe, #e5e7eb);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 65px;
+      font-size: 70px;
     }
 
     .content {
@@ -153,8 +179,25 @@
       cursor: pointer;
     }
 
+    .listing-button {
+      display: block;
+      margin-top: 15px;
+      padding: 11px;
+      text-align: center;
+      text-decoration: none;
+      background: #111827;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
     @media (max-width: 800px) {
       .search-box {
+        grid-template-columns: 1fr;
+        margin: 15px;
+      }
+
+      .sources {
         grid-template-columns: 1fr;
         margin: 15px;
       }
@@ -168,8 +211,7 @@
       .grid {
         grid-template-columns: 1fr;
       }
-    }
-  </style>
+    }  </style>
 </head>
 
 <body>
@@ -180,6 +222,7 @@
 
 <section class="hero">
   <h2>Find the deals.</h2>
+
   <p>
     Search cars, motorbikes and parts and find listings
     that could be worth checking out.
@@ -207,191 +250,42 @@
     placeholder="Max NZ$"
   >
 
-  <button class="search-button" onclick="searchDeals()">
+  <button
+    class="search-button"
+    onclick="searchDeals()"
+  >
     Search
+  </button>
+
+</section>
+
+<section class="sources">
+
+  <button
+    class="source-button trademe"
+    onclick="openTradeMe()"
+  >
+    🔴 Search Trade Me
+  </button>
+
+  <button
+    class="source-button facebook"
+    onclick="openFacebook()"
+  >
+    🔵 Search Facebook Marketplace
   </button>
 
 </section>
 
 <section class="results">
 
-  <h2 id="resultTitle">Latest Deals</h2>
+  <h2 id="resultTitle">
+    Latest Deals
+  </h2>
 
-  <div class="grid" id="listings"></div>
+  <div
+    class="grid"
+    id="listings"
+  ></div>
 
-</section>
-
-<script>
-
-const listings = [
-
-  {
-    name: "Nissan Silvia S13",
-    price: 8500,
-    category: "Cars",
-    location: "Gisborne",
-    details: "Manual • RWD • Project car",
-    icon: "🚗",
-    deal: "Potential deal"
-  },
-
-  {
-    name: "Mazda MX-5 NA",
-    price: 9500,
-    category: "Cars",
-    location: "Napier",
-    details: "Manual • RWD • Convertible",
-    icon: "🏎️",
-    deal: "Good price"
-  },
-
-  {
-    name: "Toyota Altezza",
-    price: 7800,
-    category: "Cars",
-    location: "Hamilton",
-    details: "Manual • RWD • Sedan",
-    icon: "🚘",
-    deal: "Potential deal"
-  },
-
-  {
-    name: "Honda CBR125R",
-    price: 3200,
-    category: "Motorbikes",
-    location: "Auckland",
-    details: "Manual • Sport bike",
-    icon: "🏍️",
-    deal: "Good price"
-  },
-
-  {
-    name: "Yamaha MT-125",
-    price: 5200,
-    category: "Motorbikes",
-    location: "Tauranga",
-    details: "Manual • Naked bike",
-    icon: "🏍️",
-    deal: "Potential deal"
-  },
-
-  {
-    name: "SR20DET Engine",
-    price: 4500,
-    category: "Parts",
-    location: "Wellington",
-    details: "Turbo • SR20 • Engine",
-    icon: "⚙️",
-    deal: "Good price"
-  }
-
-];
-
-function showListings(items) {
-
-  const container = document.getElementById("listings");
-
-  document.getElementById("resultTitle").textContent =
-    items.length + " Deal" + (items.length === 1 ? "" : "s");
-
-  container.innerHTML = "";
-
-  if (items.length === 0) {
-
-    container.innerHTML = `
-      <div>
-        <h3>No deals found.</h3>
-        <p>Try changing your search.</p>
-      </div>
-    `;
-
-    return;
-  }
-
-  items.forEach(item => {
-
-    container.innerHTML += `
-
-      <article class="card">
-
-        <div class="image">
-          ${item.icon}
-        </div>
-
-        <div class="content">
-
-          <button
-            class="save"
-            onclick="this.textContent =
-            this.textContent === '♡' ? '♥' : '♡'"
-          >
-            ♡
-          </button>
-
-          <h3>${item.name}</h3>
-
-          <div class="price">
-            NZ$${item.price.toLocaleString()}
-          </div>
-
-          <div class="details">
-            📍 ${item.location}<br>
-            ${item.details}
-          </div>
-
-          <span class="deal">
-            ${item.deal}
-          </span>
-
-        </div>
-
-      </article>
-
-    `;
-
-  });
-
-}
-
-function searchDeals() {
-
-  const search =
-    document.getElementById("search").value.toLowerCase();
-
-  const category =
-    document.getElementById("category").value;
-
-  const maxPrice =
-    Number(document.getElementById("maxPrice").value) || Infinity;
-
-  const results = listings.filter(item => {
-
-    const matchesSearch =
-      item.name.toLowerCase().includes(search) ||
-      item.details.toLowerCase().includes(search);
-
-    const matchesCategory =
-      category === "all" ||
-      item.category === category;
-
-    const matchesPrice =
-      item.price <= maxPrice;
-
-    return (
-      matchesSearch &&
-      matchesCategory &&
-      matchesPrice
-    );
-
-  });
-
-  showListings(results);
-
-}
-
-showListings(listings);
-
-</script>
-
-</body>
-</html>
+</section>https://didactic-waffle-jr7967g9qv7pc5vp6-8000.app.github.dev/
