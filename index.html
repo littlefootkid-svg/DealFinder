@@ -7,7 +7,11 @@
 <title>DealFinder</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
   --green:#22c55e;
@@ -29,14 +33,27 @@ body{
   padding-bottom:78px;
 }
 
-button,input,select{font:inherit}
-button{cursor:pointer}
+body.auth-required{
+  overflow:hidden;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
 
 button:active{
   transform:scale(.98);
 }
 
-/* HEADER */
+/* ==============================
+   HEADER
+============================== */
 
 header{
   height:64px;
@@ -79,7 +96,9 @@ header{
   height:22px;
 }
 
-/* SCREENS */
+/* ==============================
+   SCREENS
+============================== */
 
 .screen{
   display:none;
@@ -89,7 +108,9 @@ header{
   display:block;
 }
 
-/* HOME HERO */
+/* ==============================
+   HOME HERO
+============================== */
 
 .hero{
   background:
@@ -113,7 +134,9 @@ header{
   line-height:1.5;
 }
 
-/* SEARCH PANEL */
+/* ==============================
+   SEARCH PANEL
+============================== */
 
 .search-panel{
   max-width:1100px;
@@ -135,7 +158,8 @@ header{
   flex:1;
 }
 
-input,select{
+input,
+select{
   width:100%;
   border:1px solid #d1d5db;
   background:white;
@@ -144,7 +168,8 @@ input,select{
   outline:none;
 }
 
-input:focus,select:focus{
+input:focus,
+select:focus{
   border-color:var(--green);
   box-shadow:0 0 0 2px rgba(34,197,94,.1);
 }
@@ -187,7 +212,9 @@ input:focus,select:focus{
   background:#f9fafb;
 }
 
-/* MAIN */
+/* ==============================
+   MAIN
+============================== */
 
 main{
   max-width:1100px;
@@ -211,7 +238,9 @@ main{
   font-size:14px;
 }
 
-/* LISTINGS */
+/* ==============================
+   LISTINGS
+============================== */
 
 .listings{
   display:grid;
@@ -334,7 +363,9 @@ main{
   line-height:1.45;
 }
 
-/* EMPTY */
+/* ==============================
+   EMPTY
+============================== */
 
 .empty{
   grid-column:1/-1;
@@ -350,7 +381,9 @@ main{
   margin-bottom:8px;
 }
 
-/* SEARCH SCREEN */
+/* ==============================
+   SEARCH SCREEN
+============================== */
 
 .page-screen{
   max-width:850px;
@@ -455,7 +488,9 @@ main{
   padding:7px;
 }
 
-/* SAVED SCREEN */
+/* ==============================
+   SAVED SCREEN
+============================== */
 
 .saved-header{
   margin-bottom:22px;
@@ -478,7 +513,9 @@ main{
   margin-bottom:13px;
 }
 
-/* DEAL SPEEDO */
+/* ==============================
+   DEAL SCORE
+============================== */
 
 .deal-score{
   margin-top:20px;
@@ -583,10 +620,16 @@ main{
   color:#f87171;
 }
 
+/* EXACTLY CENTRED */
+
 .gauge-mid{
+  position:absolute;
   left:50%;
+  bottom:12px;
   transform:translateX(-50%);
   color:#fbbf24;
+  font-size:11px;
+  font-weight:900;
 }
 
 .gauge-high{
@@ -594,7 +637,9 @@ main{
   color:#4ade80;
 }
 
-/* MODAL */
+/* ==============================
+   MODALS
+============================== */
 
 .modal{
   display:none;
@@ -695,7 +740,9 @@ main{
   margin-top:16px;
 }
 
-/* AUTH */
+/* ==============================
+   AUTH
+============================== */
 
 .auth-content{
   padding:30px;
@@ -745,7 +792,18 @@ main{
   font-size:13px;
 }
 
-/* ACCOUNT */
+.auth-required-modal{
+  z-index:1000;
+  background:rgba(17,24,39,.96);
+}
+
+.auth-required-modal .modal-box{
+  max-width:480px;
+}
+
+/* ==============================
+   ACCOUNT
+============================== */
 
 .account-content{
   padding:28px;
@@ -770,7 +828,9 @@ main{
   font-weight:900;
 }
 
-/* BOTTOM NAV */
+/* ==============================
+   BOTTOM NAV
+============================== */
 
 .bottom-nav{
   position:fixed;
@@ -819,9 +879,12 @@ main{
   stroke:currentColor;
 }
 
-/* RESPONSIVE */
+/* ==============================
+   RESPONSIVE
+============================== */
 
 @media(max-width:900px){
+
   .listings{
     grid-template-columns:repeat(2,1fr);
   }
@@ -829,9 +892,11 @@ main{
   .filters{
     grid-template-columns:1fr 1fr;
   }
+
 }
 
 @media(max-width:600px){
+
   .hero h1{
     font-size:32px;
   }
@@ -860,112 +925,210 @@ main{
   .bottom-nav button{
     padding:7px 9px;
   }
+
 }
 </style>
 </head>
 
-<body>
+<body class="auth-required">
 
 <header>
-  <div class="logo">Deal<span>Finder</span></div>
 
-  <button class="account-button" onclick="openAccount()" aria-label="Account">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <div class="logo">
+    Deal<span>Finder</span>
+  </div>
+
+  <button
+    class="account-button"
+    onclick="openAccount()"
+    aria-label="Account"
+  >
+
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <circle cx="12" cy="8" r="4"></circle>
       <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
     </svg>
+
   </button>
+
 </header>
 
 
-<!-- HOME -->
+<!-- ==============================
+     HOME
+============================== -->
 
 <section id="homeScreen" class="screen active">
 
   <section class="hero">
+
     <h1>Hunt smarter. Buy smarter.</h1>
+
     <p>
       Find cars, motorbikes and parts,
       compare listings and discover deals
       worth checking out.
     </p>
+
   </section>
+
 
   <section class="search-panel">
 
     <div class="search-row">
+
       <input
         id="homeSearch"
         type="text"
         placeholder="Try: Nissan Silvia S13"
       >
 
-      <button class="primary-button" onclick="runHomeSearch()">
+      <button
+        class="primary-button"
+        onclick="runHomeSearch()"
+      >
         Search
       </button>
+
     </div>
+
 
     <div class="filters">
 
       <select id="categoryFilter">
-        <option value="">All categories</option>
-        <option value="Cars">Cars</option>
-        <option value="Motorbikes">Motorbikes</option>
-        <option value="Parts">Parts</option>
+
+        <option value="">
+          All categories
+        </option>
+
+        <option value="Cars">
+          Cars
+        </option>
+
+        <option value="Motorbikes">
+          Motorbikes
+        </option>
+
+        <option value="Parts">
+          Parts
+        </option>
+
       </select>
 
-      <input id="maxPriceFilter" type="number" placeholder="Maximum price">
+
+      <input
+        id="maxPriceFilter"
+        type="number"
+        placeholder="Maximum price"
+      >
+
 
       <select id="transmissionFilter">
-        <option value="">Any transmission</option>
-        <option value="Manual">Manual</option>
-        <option value="Automatic">Automatic</option>
+
+        <option value="">
+          Any transmission
+        </option>
+
+        <option value="Manual">
+          Manual
+        </option>
+
+        <option value="Automatic">
+          Automatic
+        </option>
+
       </select>
 
+
       <select id="sortFilter">
-        <option value="newest">Newest</option>
-        <option value="price-low">Cheapest first</option>
-        <option value="price-high">Most expensive first</option>
+
+        <option value="newest">
+          Newest
+        </option>
+
+        <option value="price-low">
+          Cheapest first
+        </option>
+
+        <option value="price-high">
+          Most expensive first
+        </option>
+
       </select>
 
     </div>
 
+
     <div class="source-row">
-      <button class="source-button" onclick="externalTradeMe()">
+
+      <button
+        class="source-button"
+        onclick="externalTradeMe()"
+      >
         Trade Me
       </button>
 
-      <button class="source-button" onclick="externalFacebook()">
+      <button
+        class="source-button"
+        onclick="externalFacebook()"
+      >
         Facebook Marketplace
       </button>
+
     </div>
 
   </section>
 
+
   <main>
 
     <div class="section-header">
-      <h2>Listings</h2>
-      <div id="homeStatus" class="status"></div>
+
+      <h2>
+        Listings
+      </h2>
+
+      <div
+        id="homeStatus"
+        class="status"
+      ></div>
+
     </div>
 
-    <div id="homeListings" class="listings"></div>
+
+    <div
+      id="homeListings"
+      class="listings"
+    ></div>
 
   </main>
 
 </section>
 
 
-<!-- SEARCH -->
+<!-- ==============================
+     SEARCH
+============================== -->
 
 <section id="searchScreen" class="screen">
 
   <div class="page-screen">
 
     <div class="page-title">
-      <h1>Search</h1>
+
+      <h1>
+        Search
+      </h1>
+
     </div>
+
 
     <div class="big-search">
 
@@ -976,7 +1139,10 @@ main{
         autocomplete="off"
       >
 
-      <button class="primary-button" onclick="runDedicatedSearch()">
+      <button
+        class="primary-button"
+        onclick="runDedicatedSearch()"
+      >
         Search
       </button>
 
@@ -986,12 +1152,20 @@ main{
     <div class="subsection">
 
       <div class="subsection-header">
-        <h2>🕘 Recent searches</h2>
 
-        <button class="clear-button" onclick="clearRecentSearches()">
+        <h2>
+          🕘 Recent searches
+        </h2>
+
+        <button
+          class="clear-button"
+          onclick="clearRecentSearches()"
+        >
           Clear all
         </button>
+
       </div>
+
 
       <div id="recentSearches"></div>
 
@@ -1001,8 +1175,13 @@ main{
     <div class="subsection">
 
       <div class="subsection-header">
-        <h2>🔍 Saved searches</h2>
+
+        <h2>
+          🔍 Saved searches
+        </h2>
+
       </div>
+
 
       <div id="savedSearches"></div>
 
@@ -1013,33 +1192,53 @@ main{
 </section>
 
 
-<!-- SAVED -->
+<!-- ==============================
+     SAVED
+============================== -->
 
 <section id="savedScreen" class="screen">
 
   <div class="page-screen">
 
     <div class="saved-header">
-      <h1>Saved</h1>
-      <p>Your saved vehicles and searches.</p>
-    </div>
 
+      <h1>
+        Saved
+      </h1>
 
-    <div class="saved-section">
-
-      <h2>🚗 Saved listings</h2>
-
-      <div id="savedListings" class="listings"></div>
+      <p>
+        Your saved vehicles and searches.
+      </p>
 
     </div>
 
 
     <div class="saved-section">
 
-      <h2>🔍 Saved searches</h2>
+      <h2>
+        🚗 Saved listings
+      </h2>
+
+      <div
+        id="savedListings"
+        class="listings"
+      ></div>
+
+    </div>
+
+
+    <div class="saved-section">
+
+      <h2>
+        🔍 Saved searches
+      </h2>
 
       <div class="subsection">
-        <div id="savedSearchesSavedPage"></div>
+
+        <div
+          id="savedSearchesSavedPage"
+        ></div>
+
       </div>
 
     </div>
@@ -1049,59 +1248,118 @@ main{
 </section>
 
 
-<!-- LISTING MODAL -->
+<!-- ==============================
+     LISTING MODAL
+============================== -->
 
-<div id="listingModal" class="modal">
+<div
+  id="listingModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeListing()">×</button>
+    <button
+      class="close"
+      onclick="closeListing()"
+    >
+      ×
+    </button>
+
 
     <div id="modalImage"></div>
+
 
     <div class="modal-body">
 
       <h2 id="modalTitle"></h2>
 
-      <div id="modalPrice" class="modal-price"></div>
+      <div
+        id="modalPrice"
+        class="modal-price"
+      ></div>
 
-      <div id="dealScoreContainer"></div>
 
-      <div id="modalDescription" class="description"></div>
+      <div
+        id="dealScoreContainer"
+      ></div>
+
+
+      <div
+        id="modalDescription"
+        class="description"
+      ></div>
+
 
       <div class="detail-grid">
 
         <div class="detail">
-          <strong>Category</strong>
+
+          <strong>
+            Category
+          </strong>
+
           <span id="modalCategory"></span>
+
         </div>
 
+
         <div class="detail">
-          <strong>Location</strong>
+
+          <strong>
+            Location
+          </strong>
+
           <span id="modalLocation"></span>
+
         </div>
 
+
         <div class="detail">
-          <strong>Transmission</strong>
+
+          <strong>
+            Transmission
+          </strong>
+
           <span id="modalTransmission"></span>
+
         </div>
 
+
         <div class="detail">
-          <strong>Drive</strong>
+
+          <strong>
+            Drive
+          </strong>
+
           <span id="modalDrive"></span>
+
         </div>
 
+
         <div class="detail">
-          <strong>Year</strong>
+
+          <strong>
+            Year
+          </strong>
+
           <span id="modalYear"></span>
+
         </div>
 
+
         <div class="detail">
-          <strong>Mileage</strong>
+
+          <strong>
+            Mileage
+          </strong>
+
           <span id="modalMileage"></span>
+
         </div>
 
       </div>
+
 
       <div class="ai-box">
 
@@ -1109,9 +1367,13 @@ main{
           Why DealFinder showed you this
         </div>
 
-        <div id="modalAIText" class="ai-text"></div>
+        <div
+          id="modalAIText"
+          class="ai-text"
+        ></div>
 
       </div>
+
 
       <a
         id="modalLink"
@@ -1130,50 +1392,78 @@ main{
 </div>
 
 
-<!-- AUTH -->
+<!-- ==============================
+     AUTH
+============================== -->
 
-<div id="authModal" class="modal">
+<div
+  id="authModal"
+  class="modal auth-required-modal show"
+>
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeAuth()">×</button>
-
     <div class="auth-content">
 
-      <h2 id="authTitle">Create your DealFinder account</h2>
+      <h2 id="authTitle">
+        Create your DealFinder account
+      </h2>
+
 
       <p class="auth-subtitle">
-        Save listings, searches and preferences across your devices.
+        Sign in or create an account to use DealFinder.
+        Save listings, searches and preferences across
+        your devices.
       </p>
+
 
       <div class="auth-form">
 
-        <input id="authEmail" type="email" placeholder="Email address">
+        <input
+          id="authEmail"
+          type="email"
+          placeholder="Email address"
+          autocomplete="email"
+        >
 
-        <input id="authPassword" type="password" placeholder="Password">
 
-        <button id="authButton" onclick="submitAuth()">
+        <input
+          id="authPassword"
+          type="password"
+          placeholder="Password"
+          autocomplete="current-password"
+        >
+
+
+        <button
+          id="authButton"
+          onclick="submitAuth()"
+        >
           Create account
         </button>
 
       </div>
 
-      <div id="authMessage" class="auth-message"></div>
+
+      <div
+        id="authMessage"
+        class="auth-message"
+      ></div>
+
 
       <div class="auth-switch">
-        <span id="authSwitchText">Already have an account?</span>
-        <button onclick="toggleAuthMode()" id="authSwitchButton">
+
+        <span id="authSwitchText">
+          Already have an account?
+        </span>
+
+        <button
+          onclick="toggleAuthMode()"
+          id="authSwitchButton"
+        >
           Log in
         </button>
-      </div>
 
-      <div style="text-align:center;margin-top:15px">
-        <button
-          onclick="closeAuth()"
-          style="border:0;background:none;color:#6b7280"
-        >
-          Continue as guest
-        </button>
       </div>
 
     </div>
@@ -1183,21 +1473,39 @@ main{
 </div>
 
 
-<!-- ACCOUNT -->
+<!-- ==============================
+     ACCOUNT
+============================== -->
 
-<div id="accountModal" class="modal">
+<div
+  id="accountModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeAccount()">×</button>
+    <button
+      class="close"
+      onclick="closeAccount()"
+    >
+      ×
+    </button>
+
 
     <div class="account-content">
 
-      <h2>Your DealFinder account</h2>
+      <h2>
+        Your DealFinder account
+      </h2>
 
-      <div id="accountEmail" class="account-email">
+
+      <div
+        id="accountEmail"
+        class="account-email"
+      >
         You're browsing as a guest.
       </div>
+
 
       <button
         id="accountAction"
@@ -1214,20 +1522,37 @@ main{
 </div>
 
 
-<!-- BOTTOM NAV -->
+<!-- ==============================
+     BOTTOM NAV
+============================== -->
 
 <nav class="bottom-nav">
 
-  <button id="navHome" class="active" onclick="showScreen('home')">
+  <button
+    id="navHome"
+    class="active"
+    onclick="showScreen('home')"
+  >
 
     <span class="nav-icon">
-      <svg viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
         <path d="M3 10.5L12 3l9 7.5"></path>
+
         <path d="M5 9.5V21h14V9.5"></path>
+
         <path d="M9 21v-6h6v6"></path>
+
       </svg>
+
     </span>
 
     Home
@@ -1235,15 +1560,32 @@ main{
   </button>
 
 
-  <button id="navSearch" onclick="showScreen('search')">
+  <button
+    id="navSearch"
+    onclick="showScreen('search')"
+  >
 
     <span class="nav-icon">
-      <svg viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="7"></circle>
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <circle
+          cx="11"
+          cy="11"
+          r="7"
+        ></circle>
+
         <path d="M20 20l-4-4"></path>
+
       </svg>
+
     </span>
 
     Search
@@ -1251,14 +1593,28 @@ main{
   </button>
 
 
-  <button id="navSaved" onclick="showScreen('saved')">
+  <button
+    id="navSaved"
+    onclick="showScreen('saved')"
+  >
 
     <span class="nav-icon">
-      <svg viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21l-8-5-8 5V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path>
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <path
+          d="M20 21l-8-5-8 5V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"
+        ></path>
+
       </svg>
+
     </span>
 
     Saved
@@ -1266,15 +1622,32 @@ main{
   </button>
 
 
-  <button id="navAccount" onclick="openAccount()">
+  <button
+    id="navAccount"
+    onclick="openAccount()"
+  >
 
     <span class="nav-icon">
-      <svg viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="8" r="4"></circle>
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+
+        <circle
+          cx="12"
+          cy="8"
+          r="4"
+        ></circle>
+
         <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+
       </svg>
+
     </span>
 
     Account
@@ -1481,6 +1854,7 @@ function escapeHTML(value){
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 
@@ -1512,7 +1886,11 @@ function priceNumber(listing){
 
 function money(value){
 
-  if(value === "" || value === null || value === undefined){
+  if(
+    value === "" ||
+    value === null ||
+    value === undefined
+  ){
     return "Price not listed";
   }
 
@@ -1567,11 +1945,18 @@ function isSaved(listing){
 
 window.showScreen = function(screen){
 
-  document.querySelectorAll(".screen")
-    .forEach(el => el.classList.remove("active"));
+  document
+    .querySelectorAll(".screen")
+    .forEach(el =>
+      el.classList.remove("active")
+    );
 
-  document.querySelectorAll(".bottom-nav button")
-    .forEach(el => el.classList.remove("active"));
+
+  document
+    .querySelectorAll(".bottom-nav button")
+    .forEach(el =>
+      el.classList.remove("active")
+    );
 
 
   if(screen === "home"){
@@ -1600,6 +1985,7 @@ window.showScreen = function(screen){
       .classList.add("active");
 
     renderRecentSearches();
+
     renderSavedSearches();
 
   }
@@ -1616,6 +2002,7 @@ window.showScreen = function(screen){
       .classList.add("active");
 
     renderSavedListings();
+
     renderSavedSearches();
 
   }
@@ -1642,12 +2029,16 @@ function renderHome(){
         .value
     );
 
-  currentListings = results;
+
+  currentListings =
+    results;
+
 
   renderListingGrid(
     "homeListings",
     results
   );
+
 
   document
     .getElementById("homeStatus")
@@ -1725,20 +2116,24 @@ function filterListings(query=""){
 
 
   if(sort === "price-low"){
+
     results.sort(
       (a,b) =>
         priceNumber(a) -
         priceNumber(b)
     );
+
   }
 
 
   if(sort === "price-high"){
+
     results.sort(
       (a,b) =>
         priceNumber(b) -
         priceNumber(a)
     );
+
   }
 
 
@@ -1746,6 +2141,11 @@ function filterListings(query=""){
 
 }
 
+
+/* ==============================
+   HOME SEARCH
+   NOW OPENS SEARCH PAGE
+============================== */
 
 window.runHomeSearch = function(){
 
@@ -1757,24 +2157,54 @@ window.runHomeSearch = function(){
 
 
   if(query){
+
     addRecentSearch(query);
+
   }
 
 
-  renderHome();
+  /*
+    Send the user straight to the
+    dedicated Search screen.
+  */
+
+  document
+    .getElementById("dedicatedSearch")
+    .value =
+      query;
+
+
+  showScreen("search");
+
+
+  /*
+    Put the cursor in the search box
+    so they can immediately edit/search.
+  */
+
+  setTimeout(() => {
+
+    document
+      .getElementById("dedicatedSearch")
+      .focus();
+
+  },150);
 
 };
 
 
 document
   .getElementById("homeSearch")
-  .addEventListener("keydown",e => {
+  .addEventListener(
+    "keydown",
+    e => {
 
-    if(e.key === "Enter"){
-      runHomeSearch();
+      if(e.key === "Enter"){
+        runHomeSearch();
+      }
+
     }
-
-  });
+  );
 
 
 [
@@ -1786,7 +2216,10 @@ document
 
   document
     .getElementById(id)
-    .addEventListener("change",renderHome);
+    .addEventListener(
+      "change",
+      renderHome
+    );
 
 });
 
@@ -1808,8 +2241,15 @@ function renderListingGrid(
 
     container.innerHTML = `
       <div class="empty">
-        <h3>Nothing found</h3>
-        <p>Try changing your search or filters.</p>
+
+        <h3>
+          Nothing found
+        </h3>
+
+        <p>
+          Try changing your search or filters.
+        </p>
+
       </div>
     `;
 
@@ -1870,45 +2310,64 @@ function renderListingGrid(
                 ${escapeHTML(listing.title)}
               </div>
 
+
               <div class="price">
                 ${money(listing.price)}
               </div>
 
+
               <div class="location">
-                📍 ${escapeHTML(listing.location || "Location not listed")}
+                📍 ${escapeHTML(
+                  listing.location ||
+                  "Location not listed"
+                )}
               </div>
+
 
               <div class="tags">
 
                 ${
                   listing.category
                   ?
-                  `<span class="tag">${escapeHTML(listing.category)}</span>`
+                  `<span class="tag">
+                    ${escapeHTML(listing.category)}
+                  </span>`
                   :
                   ""
                 }
+
 
                 ${
                   listing.transmission
                   ?
-                  `<span class="tag">${escapeHTML(listing.transmission)}</span>`
+                  `<span class="tag">
+                    ${escapeHTML(listing.transmission)}
+                  </span>`
                   :
                   ""
                 }
+
 
                 ${
                   listing.drive
                   ?
-                  `<span class="tag">${escapeHTML(listing.drive)}</span>`
+                  `<span class="tag">
+                    ${escapeHTML(listing.drive)}
+                  </span>`
                   :
                   ""
                 }
 
               </div>
 
+
               <div class="source">
-                ${escapeHTML(listing.source || "DealFinder")}
+                ${escapeHTML(
+                  listing.source ||
+                  "DealFinder"
+                )}
               </div>
+
 
               <div class="ai-box">
 
@@ -1917,7 +2376,10 @@ function renderListingGrid(
                 </div>
 
                 <div class="ai-text">
-                  ${escapeHTML(listing.ai_analysis || "Analysis unavailable.")}
+                  ${escapeHTML(
+                    listing.ai_analysis ||
+                    "Analysis unavailable."
+                  )}
                 </div>
 
               </div>
@@ -2017,10 +2479,19 @@ function renderSavedSearches(){
             🔍
           </div>
 
+
           <div class="history-main">
-            <strong>${escapeHTML(search)}</strong>
-            <span>Saved search</span>
+
+            <strong>
+              ${escapeHTML(search)}
+            </strong>
+
+            <span>
+              Saved search
+            </span>
+
           </div>
+
 
           <button
             class="history-action"
@@ -2028,6 +2499,7 @@ function renderSavedSearches(){
           >
             →
           </button>
+
 
           <button
             class="history-action"
@@ -2042,7 +2514,9 @@ function renderSavedSearches(){
       .join("")
     :
     `
-      <div style="color:#6b7280;font-size:14px">
+      <div
+        style="color:#6b7280;font-size:14px"
+      >
         No saved searches yet.
       </div>
     `;
@@ -2073,7 +2547,7 @@ function renderSavedSearches(){
 
 
 /* ==============================
-   SEARCH SCREEN
+   SEARCH HISTORY
 ============================== */
 
 function addRecentSearch(query){
@@ -2095,16 +2569,11 @@ function addRecentSearch(query){
     );
 
 
-  recentSearches.unshift(
-    query
-  );
+  recentSearches.unshift(query);
 
 
   recentSearches =
-    recentSearches.slice(
-      0,
-      10
-    );
+    recentSearches.slice(0,10);
 
 
   saveLocalData();
@@ -2125,7 +2594,9 @@ function renderRecentSearches(){
   if(!recentSearches.length){
 
     container.innerHTML = `
-      <div style="color:#6b7280;font-size:14px">
+      <div
+        style="color:#6b7280;font-size:14px"
+      >
         Your recent searches will appear here.
       </div>
     `;
@@ -2145,6 +2616,7 @@ function renderRecentSearches(){
             🕘
           </div>
 
+
           <div
             class="history-main"
             onclick="useRecentSearch(${index})"
@@ -2161,12 +2633,14 @@ function renderRecentSearches(){
 
           </div>
 
+
           <button
             class="history-action"
             onclick="useRecentSearch(${index})"
           >
             →
           </button>
+
 
           <button
             class="history-action"
@@ -2230,6 +2704,10 @@ window.clearRecentSearches = function(){
 };
 
 
+/* ==============================
+   DEDICATED SEARCH
+============================== */
+
 window.runDedicatedSearch = function(){
 
   const query =
@@ -2253,7 +2731,19 @@ window.runDedicatedSearch = function(){
       query;
 
 
-  showScreen("home");
+  /*
+    Keep the user on the Search page.
+    This is now the dedicated search area.
+  */
+
+  showScreen("search");
+
+
+  /*
+    For now the actual listing filtering
+    still happens through the existing
+    DealFinder listing engine.
+  */
 
   renderHome();
 
@@ -2286,14 +2776,12 @@ window.useSearch = function(index){
 
 
   document
-    .getElementById("homeSearch")
+    .getElementById("dedicatedSearch")
     .value =
       search;
 
 
-  showScreen("home");
-
-  renderHome();
+  showScreen("search");
 
 };
 
@@ -2330,7 +2818,8 @@ window.openListing = function(index){
   document
     .getElementById("modalTitle")
     .textContent =
-      listing.title || "Untitled listing";
+      listing.title ||
+      "Untitled listing";
 
 
   document
@@ -2349,37 +2838,43 @@ window.openListing = function(index){
   document
     .getElementById("modalCategory")
     .textContent =
-      listing.category || "Not listed";
+      listing.category ||
+      "Not listed";
 
 
   document
     .getElementById("modalLocation")
     .textContent =
-      listing.location || "Not listed";
+      listing.location ||
+      "Not listed";
 
 
   document
     .getElementById("modalTransmission")
     .textContent =
-      listing.transmission || "Not listed";
+      listing.transmission ||
+      "Not listed";
 
 
   document
     .getElementById("modalDrive")
     .textContent =
-      listing.drive || "Not listed";
+      listing.drive ||
+      "Not listed";
 
 
   document
     .getElementById("modalYear")
     .textContent =
-      listing.year || "Not listed";
+      listing.year ||
+      "Not listed";
 
 
   document
     .getElementById("modalMileage")
     .textContent =
-      listing.mileage || "Not listed";
+      listing.mileage ||
+      "Not listed";
 
 
   document
@@ -2423,7 +2918,8 @@ window.openListing = function(index){
 
 
   link.href =
-    listing.listing_url || "#";
+    listing.listing_url ||
+    "#";
 
 
   link.style.display =
@@ -2461,11 +2957,20 @@ function renderDealScore(score){
 
 
   if(score < 40){
-    message = "Low deal value";
+
+    message =
+      "Low deal value";
+
   }else if(score < 70){
-    message = "Worth investigating";
+
+    message =
+      "Worth investigating";
+
   }else{
-    message = "Strong deal";
+
+    message =
+      "Strong deal";
+
   }
 
 
@@ -2484,32 +2989,45 @@ function renderDealScore(score){
           DEAL SCORE
         </div>
 
+
         <div class="score-number">
           ${score}
         </div>
+
 
         <div class="score-message">
           ${message}
         </div>
 
+
         <div class="speedometer">
 
           <div class="gauge"></div>
+
 
           <div
             class="needle"
             id="dealNeedle"
           ></div>
 
-          <div class="gauge-label gauge-low">
+
+          <div
+            class="gauge-label gauge-low"
+          >
             LOW
           </div>
 
-          <div class="gauge-label gauge-mid">
+
+          <div
+            class="gauge-label gauge-mid"
+          >
             MID
           </div>
 
-          <div class="gauge-label gauge-high">
+
+          <div
+            class="gauge-label gauge-high"
+          >
             HIGH
           </div>
 
@@ -2554,7 +3072,7 @@ window.closeListing = function(){
 
 
 /* ==============================
-   EXTERNAL MARKETPLACE SEARCH
+   EXTERNAL SEARCH
 ============================== */
 
 window.externalTradeMe = function(){
@@ -2664,11 +3182,18 @@ window.accountAction = async function(){
 
     closeAccount();
 
+    /*
+      After logout, require login again.
+    */
+
+    requireAuthentication();
+
   }else{
 
     closeAccount();
 
-    authMode = "signup";
+    authMode =
+      "signup";
 
     updateAuthUI();
 
@@ -2682,7 +3207,7 @@ window.accountAction = async function(){
 
 
 /* ==============================
-   AUTH
+   AUTH UI
 ============================== */
 
 function updateAuthUI(){
@@ -2761,6 +3286,27 @@ window.toggleAuthMode = function(){
 };
 
 
+/* ==============================
+   REQUIRE LOGIN
+============================== */
+
+function requireAuthentication(){
+
+  document.body
+    .classList.add("auth-required");
+
+
+  document
+    .getElementById("authModal")
+    .classList.add("show");
+
+}
+
+
+/* ==============================
+   AUTH SUBMIT
+============================== */
+
 window.submitAuth = async function(){
 
   const email =
@@ -2799,12 +3345,31 @@ window.submitAuth = async function(){
 
     if(authMode === "signup"){
 
+      /*
+        IMPORTANT:
+        Send email verification back to
+        the current DealFinder deployment.
+      */
+
+      const redirectUrl =
+        window.location.origin + "/";
+
+
       const {
+        data,
         error
       } =
         await supabase.auth.signUp({
+
           email,
-          password
+
+          password,
+
+          options:{
+            emailRedirectTo:
+              redirectUrl
+          }
+
         });
 
 
@@ -2813,22 +3378,70 @@ window.submitAuth = async function(){
       }
 
 
+      /*
+        Supabase can return a user with
+        no session when email confirmation
+        is enabled.
+      */
+
+      if(
+        data &&
+        data.user &&
+        !data.session
+      ){
+
+        message.innerHTML =
+          "✅ Account created!<br><br>" +
+          "Check your email and tap the confirmation link. " +
+          "You'll be returned to DealFinder automatically.";
+
+        return;
+
+      }
+
+
       message.textContent =
-        "Account created. Check your email if confirmation is required.";
+        "Account created!";
+
+
+      document.body
+        .classList.remove("auth-required");
+
+
+      document
+        .getElementById("authModal")
+        .classList.remove("show");
+
 
     }else{
 
       const {
+        data,
         error
       } =
         await supabase.auth.signInWithPassword({
+
           email,
+
           password
+
         });
 
 
       if(error){
         throw error;
+      }
+
+
+      if(
+        !data ||
+        !data.session
+      ){
+
+        throw new Error(
+          "Login did not create a session."
+        );
+
       }
 
 
@@ -2836,10 +3449,17 @@ window.submitAuth = async function(){
         "Logged in!";
 
 
-      setTimeout(
-        closeAuth,
-        500
-      );
+      document.body
+        .classList.remove("auth-required");
+
+
+      setTimeout(() => {
+
+        document
+          .getElementById("authModal")
+          .classList.remove("show");
+
+      },500);
 
     }
 
@@ -2856,7 +3476,28 @@ window.submitAuth = async function(){
 };
 
 
+/* ==============================
+   CLOSE AUTH
+============================== */
+
 window.closeAuth = function(){
+
+  /*
+    The first-login screen cannot be
+    dismissed until authentication
+    succeeds.
+  */
+
+  if(
+    document.body.classList.contains(
+      "auth-required"
+    )
+  ){
+
+    return;
+
+  }
+
 
   document
     .getElementById("authModal")
@@ -2866,27 +3507,55 @@ window.closeAuth = function(){
 
 
 /* ==============================
+   AUTH STATE LISTENER
+============================== */
+
+supabase.auth.onAuthStateChange(
+  (event,session) => {
+
+    if(session){
+
+      document.body
+        .classList.remove("auth-required");
+
+
+      document
+        .getElementById("authModal")
+        .classList.remove("show");
+
+    }
+
+  }
+);
+
+
+/* ==============================
    MODAL CLICK OUTSIDE
 ============================== */
 
 [
   "listingModal",
-  "authModal",
   "accountModal"
 ].forEach(id => {
 
   document
     .getElementById(id)
-    .addEventListener("click",event => {
+    .addEventListener(
+      "click",
+      event => {
 
-      if(event.target === event.currentTarget){
+        if(
+          event.target ===
+          event.currentTarget
+        ){
 
-        event.currentTarget
-          .classList.remove("show");
+          event.currentTarget
+            .classList.remove("show");
+
+        }
 
       }
-
-    });
+    );
 
 });
 
@@ -2899,9 +3568,22 @@ document.addEventListener(
 
       document
         .querySelectorAll(".modal.show")
-        .forEach(modal =>
-          modal.classList.remove("show")
-        );
+        .forEach(modal => {
+
+          if(
+            modal.id !== "authModal" ||
+            !document.body.classList.contains(
+              "auth-required"
+            )
+          ){
+
+            modal.classList.remove(
+              "show"
+            );
+
+          }
+
+        });
 
     }
 
@@ -2925,16 +3607,23 @@ async function loadSupabaseListings(){
         .from("listings")
         .select("*")
         .eq("is_active",true)
-        .order("created_at",{ascending:false});
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
 
 
     if(error){
+
       console.warn(
         "Supabase listings unavailable:",
         error.message
       );
 
       return;
+
     }
 
 
@@ -2942,6 +3631,7 @@ async function loadSupabaseListings(){
 
       allListings =
         data;
+
 
       renderHome();
 
@@ -2965,15 +3655,53 @@ async function loadSupabaseListings(){
    START
 ============================== */
 
-renderHome();
+async function startApp(){
 
-renderRecentSearches();
+  renderHome();
 
-renderSavedSearches();
+  renderRecentSearches();
 
-updateAuthUI();
+  renderSavedSearches();
 
-loadSupabaseListings();
+  updateAuthUI();
+
+
+  /*
+    Check whether the user is already
+    logged in before forcing auth.
+  */
+
+  const {
+    data
+  } =
+    await supabase.auth.getSession();
+
+
+  if(
+    data &&
+    data.session
+  ){
+
+    document.body
+      .classList.remove("auth-required");
+
+    document
+      .getElementById("authModal")
+      .classList.remove("show");
+
+  }else{
+
+    requireAuthentication();
+
+  }
+
+
+  loadSupabaseListings();
+
+}
+
+
+startApp();
 
 </script>
 
