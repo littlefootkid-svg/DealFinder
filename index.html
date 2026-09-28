@@ -171,6 +171,13 @@
       padding-right: 45px;
     }
 
+    .description {
+      color: #475569;
+      line-height: 1.5;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
     .price {
       font-size: 24px;
       font-weight: bold;
@@ -286,21 +293,10 @@
 
   <select id="category">
 
-    <option value="all">
-      Everything
-    </option>
-
-    <option value="Cars">
-      Cars
-    </option>
-
-    <option value="Motorbikes">
-      Motorbikes
-    </option>
-
-    <option value="Parts">
-      Parts
-    </option>
+    <option value="all">Everything</option>
+    <option value="Cars">Cars</option>
+    <option value="Motorbikes">Motorbikes</option>
+    <option value="Parts">Parts</option>
 
   </select>
 
@@ -348,7 +344,7 @@
     class="status"
     id="status"
   >
-    🔄 Connecting to DealFinder database...
+    🔄 Loading DealFinder...
   </div>
 
 
@@ -365,7 +361,7 @@
 </section>
 
 
-<!-- SUPABASE LIBRARY -->
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -392,6 +388,98 @@ const supabaseClient =
 
 
 let listings = [];
+
+
+/* =====================================
+   DUMMY LISTINGS
+===================================== */
+
+const dummyListings = [
+
+  {
+    title: "Nissan Silvia S13",
+    price: 8500,
+    category: "Cars",
+    location: "Gisborne",
+    details: "Manual • RWD • Project car",
+    description:
+      "A lightweight rear-wheel-drive Nissan Silvia S13 project car. The manual gearbox and RWD layout make it an interesting starting point for a project build. Check the body, engine, rust, WOF and registration before buying.",
+    source: "Trade Me",
+    image_url: "",
+    listing_url: "#"
+  },
+
+
+  {
+    title: "Mazda MX-5 NA",
+    price: 9500,
+    category: "Cars",
+    location: "Napier",
+    details: "Manual • RWD • Convertible",
+    description:
+      "Classic Mazda MX-5 NA with a manual gearbox, rear-wheel drive and convertible body. A fun lightweight sports car with plenty of aftermarket support.",
+    source: "Facebook Marketplace",
+    image_url: "",
+    listing_url: "#"
+  },
+
+
+  {
+    title: "Toyota Altezza",
+    price: 7800,
+    category: "Cars",
+    location: "Hamilton",
+    details: "Manual • RWD • Sedan",
+    description:
+      "Toyota Altezza sedan with rear-wheel drive and a manual transmission. A practical-looking platform that can also be used as a project or enthusiast car.",
+    source: "Trade Me",
+    image_url: "",
+    listing_url: "#"
+  },
+
+
+  {
+    title: "Honda CBR125R",
+    price: 3200,
+    category: "Motorbikes",
+    location: "Auckland",
+    details: "Manual • Sport bike • 125cc",
+    description:
+      "Small-displacement Honda sport bike with a manual gearbox. The CBR125R has the styling of a larger sport bike while using a smaller engine.",
+    source: "Facebook Marketplace",
+    image_url: "",
+    listing_url: "#"
+  },
+
+
+  {
+    title: "Yamaha MT-125",
+    price: 5200,
+    category: "Motorbikes",
+    location: "Tauranga",
+    details: "Manual • Naked bike • 125cc",
+    description:
+      "Yamaha's compact MT-series naked bike. A lightweight motorcycle with upright styling and a manual transmission.",
+    source: "Trade Me",
+    image_url: "",
+    listing_url: "#"
+  },
+
+
+  {
+    title: "SR20DET Engine",
+    price: 4500,
+    category: "Parts",
+    location: "Wellington",
+    details: "Turbo • SR20 • Engine",
+    description:
+      "SR20DET turbocharged engine listed as a project component. The SR20 platform is commonly associated with Nissan performance builds. Check compression, condition, included parts and engine history before buying.",
+    source: "Facebook Marketplace",
+    image_url: "",
+    listing_url: "#"
+  }
+
+];
 
 
 /* =====================================
@@ -425,19 +513,36 @@ async function loadListings() {
     console.error(error);
 
     status.textContent =
-      "❌ Could not load listings.";
+      "⚠️ Using DealFinder demo listings.";
 
-    showListings([]);
+    listings = dummyListings;
+
+    showListings(listings);
 
     return;
   }
 
 
-  listings = data || [];
+  /*
+    If Supabase has listings, use them.
+    If it is empty, show the dummy listings.
+  */
 
+  if (data && data.length > 0) {
 
-  status.textContent =
-    "🟢 DealFinder database connected.";
+    listings = data;
+
+    status.textContent =
+      "🟢 DealFinder database connected.";
+
+  } else {
+
+    listings = dummyListings;
+
+    status.textContent =
+      "🟢 Supabase connected • Demo listings loaded.";
+
+  }
 
 
   showListings(listings);
@@ -527,6 +632,11 @@ function showListings(items) {
         "No details available";
 
 
+      const description =
+        item.description ||
+        "No description available.";
+
+
       const source =
         item.source ||
         "DealFinder";
@@ -586,6 +696,13 @@ function showListings(items) {
             </div>
 
 
+            <div class="description">
+
+              ${escapeHTML(description)}
+
+            </div>
+
+
             <span class="deal">
               ${deal}
             </span>
@@ -597,7 +714,7 @@ function showListings(items) {
 
 
             <div class="tap-text">
-              Tap to view details →
+              Tap to view full listing →
             </div>
 
           </div>
@@ -682,7 +799,12 @@ function openListing(index) {
 
   const details =
     item.details ||
-    "No extra details available";
+    "No extra details available.";
+
+
+  const description =
+    item.description ||
+    "No description available.";
 
 
   const source =
@@ -818,12 +940,36 @@ function openListing(index) {
 
 
       <h3>
+        Description
+      </h3>
+
+
+      <p
+        style="
+          line-height:1.7;
+          color:#475569;
+        "
+      >
+
+        ${escapeHTML(description)}
+
+      </p>
+
+
+      <h3>
         Vehicle details
       </h3>
 
 
-      <p>
+      <p
+        style="
+          line-height:1.7;
+          color:#475569;
+        "
+      >
+
         ${escapeHTML(details)}
+
       </p>
 
 
@@ -847,16 +993,17 @@ function openListing(index) {
 
         <br><br>
 
-        This listing matches the type
-        of item you're searching for
-        and is currently stored in
-        the DealFinder database.
+        DealFinder has identified this
+        listing as something worth
+        checking based on its price,
+        category and search details.
 
       </div>
 
 
       ${
-        item.listing_url
+        item.listing_url &&
+        item.listing_url !== "#"
 
           ? `
 
@@ -971,6 +1118,8 @@ function searchDeals() {
             " " +
             (item.details || "") +
             " " +
+            (item.description || "") +
+            " " +
             (item.location || "") +
             " " +
             (item.category || "")
@@ -1008,7 +1157,7 @@ function searchDeals() {
 
 
 /* =====================================
-   TRADE ME
+   TRADE ME SEARCH
 ===================================== */
 
 function searchTradeMe() {
@@ -1038,7 +1187,7 @@ function searchTradeMe() {
 
 
 /* =====================================
-   FACEBOOK
+   FACEBOOK SEARCH
 ===================================== */
 
 function searchFacebook() {
@@ -1099,8 +1248,7 @@ function toggleSave(button) {
 function getIcon(category) {
 
   if (
-    category ===
-    "Motorbikes"
+    category === "Motorbikes"
   ) {
 
     return "🏍️";
@@ -1109,8 +1257,7 @@ function getIcon(category) {
 
 
   if (
-    category ===
-    "Parts"
+    category === "Parts"
   ) {
 
     return "⚙️";
@@ -1162,26 +1309,11 @@ function getDealLabel(price) {
 function escapeHTML(value) {
 
   return String(value ?? "")
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
@@ -1189,22 +1321,10 @@ function escapeHTML(value) {
 function escapeJS(value) {
 
   return String(value ?? "")
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
-    .replace(
-      /'/g,
-      "\\'"
-    )
-    .replace(
-      /\n/g,
-      "\\n"
-    )
-    .replace(
-      /\r/g,
-      "\\r"
-    );
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
 
 }
 
@@ -1216,6 +1336,7 @@ function escapeJS(value) {
 loadListings();
 
 </script>
+
 
 </body>
 </html>
