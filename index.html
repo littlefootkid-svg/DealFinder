@@ -3,177 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="theme-color" content="#111827">
 <title>DealFinder</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green:#22c55e;
+  --green-dark:#16a34a;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --dark:#111827;
+  --dark2:#1f2937;
+  --gray:#6b7280;
+  --light:#f3f4f6;
+  --border:#e5e7eb;
+  --white:#fff;
 }
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f3f4f6;
-  color:#111827;
-  padding-bottom:82px;
+  background:#f5f6f8;
+  color:var(--dark);
+  padding-bottom:78px;
 }
 
-button,input,select{
-  font:inherit;
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+button:active{
+  transform:scale(.98);
 }
 
-button{
-  cursor:pointer;
-}
+/* HEADER */
 
 header{
-  background:#111827;
+  height:64px;
+  background:var(--dark);
   color:white;
-  padding:16px 20px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
   position:sticky;
   top:0;
   z-index:100;
 }
 
 .logo{
-  font-size:26px;
-  font-weight:800;
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-1px;
 }
 
 .logo span{
-  color:#22c55e;
+  color:var(--green);
 }
 
-.saved-count{
-  background:#22c55e;
-  color:#07130b;
-  padding:7px 12px;
-  border-radius:20px;
-  font-weight:bold;
+.account-button{
+  width:42px;
+  height:42px;
+  border:1px solid #374151;
+  background:var(--dark2);
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
 }
+
+.account-button svg{
+  width:22px;
+  height:22px;
+}
+
+/* SCREENS */
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+/* HOME HERO */
 
 .hero{
-  background:linear-gradient(135deg,#111827,#1f2937);
+  background:
+    radial-gradient(circle at 90% 10%,rgba(34,197,94,.2),transparent 35%),
+    linear-gradient(135deg,#111827,#1f2937);
   color:white;
-  padding:45px 20px 65px;
+  padding:42px 20px 58px;
   text-align:center;
 }
 
 .hero h1{
-  font-size:42px;
-  margin-bottom:12px;
+  font-size:40px;
+  letter-spacing:-1.5px;
+  margin-bottom:10px;
 }
 
 .hero p{
-  color:#d1d5db;
   max-width:650px;
   margin:auto;
-  font-size:17px;
+  color:#d1d5db;
   line-height:1.5;
 }
 
+/* SEARCH PANEL */
+
 .search-panel{
   max-width:1100px;
-  margin:-28px auto 25px;
+  margin:-28px auto 28px;
   background:white;
   border-radius:18px;
   padding:18px;
   box-shadow:0 8px 30px rgba(0,0,0,.12);
   position:relative;
-  z-index:5;
+  z-index:4;
 }
 
 .search-row{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr auto;
+  display:flex;
   gap:9px;
+}
+
+.search-row input{
+  flex:1;
 }
 
 input,select{
   width:100%;
-  padding:13px;
   border:1px solid #d1d5db;
-  border-radius:10px;
-  outline:none;
   background:white;
+  border-radius:10px;
+  padding:13px;
+  outline:none;
 }
 
 input:focus,select:focus{
-  border-color:#22c55e;
+  border-color:var(--green);
+  box-shadow:0 0 0 2px rgba(34,197,94,.1);
 }
 
-.search-btn{
-  background:#22c55e;
-  border:none;
+.primary-button{
+  border:0;
   border-radius:10px;
+  background:var(--green);
   padding:13px 20px;
-  font-weight:bold;
+  font-weight:900;
 }
 
-.search-btn:hover{
-  background:#16a34a;
+.primary-button:hover{
+  background:var(--green-dark);
 }
 
-.extra-controls{
-  display:flex;
-  gap:10px;
+.filters{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
   margin-top:10px;
 }
 
-.extra-controls select{
-  flex:1;
-}
-
-.source-buttons{
+.source-row{
   display:flex;
   gap:10px;
   margin-top:12px;
 }
 
-.source-buttons button{
+.source-button{
   flex:1;
-  border:none;
+  border:1px solid var(--border);
+  background:white;
   border-radius:10px;
   padding:12px;
-  font-weight:bold;
+  font-weight:800;
 }
 
-.trade-btn{
-  background:#facc15;
+.source-button:hover{
+  background:#f9fafb;
 }
 
-.facebook-btn{
-  background:#3b82f6;
-  color:white;
-}
+/* MAIN */
 
 main{
   max-width:1100px;
   margin:auto;
-  padding:0 20px 50px;
+  padding:0 20px 35px;
 }
 
-.top-line{
+.section-header{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:10px;
-  margin-bottom:18px;
+  justify-content:space-between;
+  margin-bottom:16px;
 }
 
-.top-line h2{
+.section-header h2{
   font-size:24px;
 }
 
-#status{
-  color:#6b7280;
+.status{
+  color:var(--gray);
   font-size:14px;
 }
+
+/* LISTINGS */
 
 .listings{
   display:grid;
@@ -186,14 +224,14 @@ main{
   border-radius:16px;
   overflow:hidden;
   box-shadow:0 4px 15px rgba(0,0,0,.08);
-  transition:.15s;
   cursor:pointer;
   position:relative;
+  transition:.15s;
 }
 
 .listing-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 10px 25px rgba(0,0,0,.14);
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,.13);
 }
 
 .listing-image{
@@ -206,11 +244,29 @@ main{
 
 .no-image{
   height:190px;
-  background:#e5e7eb;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:48px;
+  background:#e5e7eb;
+  font-size:54px;
+}
+
+.save-button{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:white;
+  box-shadow:0 3px 10px rgba(0,0,0,.17);
+  font-size:22px;
+  z-index:2;
+}
+
+.save-button.saved{
+  color:#ef4444;
 }
 
 .listing-content{
@@ -219,86 +275,514 @@ main{
 
 .listing-title{
   font-size:19px;
-  font-weight:bold;
-  margin-bottom:8px;
+  font-weight:900;
+  margin-bottom:6px;
   padding-right:35px;
 }
 
 .price{
   font-size:23px;
-  font-weight:bold;
-  color:#16a34a;
-  margin-bottom:8px;
+  font-weight:900;
+  color:var(--green-dark);
+  margin-bottom:7px;
 }
 
 .location{
-  color:#6b7280;
+  color:var(--gray);
+  font-size:14px;
   margin-bottom:10px;
 }
 
 .tags{
   display:flex;
   flex-wrap:wrap;
-  gap:6px;
+  gap:5px;
 }
 
 .tag{
   background:#f3f4f6;
-  border-radius:20px;
   padding:5px 8px;
+  border-radius:20px;
   font-size:12px;
-  color:#374151;
 }
 
 .source{
   margin-top:12px;
   font-size:12px;
-  color:#6b7280;
+  font-weight:700;
+  color:var(--gray);
 }
 
-.heart{
-  position:absolute;
-  top:12px;
-  right:12px;
-  width:40px;
-  height:40px;
-  border:none;
-  border-radius:50%;
-  background:white;
-  font-size:22px;
-  box-shadow:0 3px 10px rgba(0,0,0,.15);
-  z-index:3;
+.ai-box{
+  margin-top:13px;
+  padding:11px;
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-radius:11px;
 }
 
-.heart.saved{
-  color:#ef4444;
+.ai-title{
+  color:#15803d;
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:4px;
 }
+
+.ai-text{
+  color:#374151;
+  font-size:13px;
+  line-height:1.45;
+}
+
+/* EMPTY */
 
 .empty{
+  grid-column:1/-1;
   background:white;
   border-radius:16px;
-  padding:45px 20px;
+  padding:50px 20px;
   text-align:center;
-  color:#6b7280;
-  grid-column:1/-1;
+  color:var(--gray);
 }
 
 .empty h3{
-  color:#111827;
+  color:var(--dark);
   margin-bottom:8px;
 }
 
+/* SEARCH SCREEN */
+
+.page-screen{
+  max-width:850px;
+  margin:auto;
+  padding:28px 20px;
+}
+
+.page-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.page-title h1{
+  font-size:30px;
+}
+
+.big-search{
+  display:flex;
+  gap:9px;
+  margin-bottom:25px;
+}
+
+.big-search input{
+  flex:1;
+  font-size:17px;
+}
+
+.subsection{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.subsection-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.subsection-header h2{
+  font-size:18px;
+}
+
+.clear-button{
+  border:0;
+  background:none;
+  color:var(--gray);
+  font-size:13px;
+}
+
+.recent-item,
+.saved-search-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 2px;
+  border-bottom:1px solid var(--border);
+}
+
+.recent-item:last-child,
+.saved-search-item:last-child{
+  border-bottom:0;
+}
+
+.history-icon{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#f3f4f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.history-main{
+  flex:1;
+  min-width:0;
+}
+
+.history-main strong{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.history-main span{
+  color:var(--gray);
+  font-size:12px;
+}
+
+.history-action{
+  border:0;
+  background:none;
+  color:var(--gray);
+  padding:7px;
+}
+
+/* SAVED SCREEN */
+
+.saved-header{
+  margin-bottom:22px;
+}
+
+.saved-header h1{
+  font-size:31px;
+  margin-bottom:6px;
+}
+
+.saved-header p{
+  color:var(--gray);
+}
+
+.saved-section{
+  margin-bottom:28px;
+}
+
+.saved-section h2{
+  margin-bottom:13px;
+}
+
+/* DEAL SPEEDO */
+
+.deal-score{
+  margin-top:20px;
+  text-align:center;
+  background:#111827;
+  color:white;
+  border-radius:18px;
+  padding:25px 15px 22px;
+  overflow:hidden;
+}
+
+.deal-score-label{
+  color:#d1d5db;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.score-number{
+  font-size:48px;
+  font-weight:900;
+  line-height:1;
+  margin:7px 0 3px;
+}
+
+.score-message{
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.speedometer{
+  position:relative;
+  width:280px;
+  height:160px;
+  margin:0 auto;
+}
+
+.gauge{
+  position:absolute;
+  width:250px;
+  height:125px;
+  left:15px;
+  top:18px;
+  border-radius:250px 250px 0 0;
+  background:
+    conic-gradient(
+      from 270deg,
+      var(--red) 0deg 54deg,
+      var(--orange) 54deg 108deg,
+      var(--green) 108deg 180deg,
+      transparent 180deg
+    );
+  -webkit-mask:
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 0 68%,
+      #000 69% 100%
+    );
+  mask:
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 0 68%,
+      #000 69% 100%
+    );
+}
+
+.needle{
+  position:absolute;
+  width:4px;
+  height:105px;
+  background:white;
+  left:138px;
+  bottom:28px;
+  transform-origin:50% 100%;
+  transform:rotate(-90deg);
+  border-radius:5px;
+  transition:transform 1.7s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 0 5px rgba(255,255,255,.5);
+}
+
+.needle::after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:14px;
+  background:white;
+  border-radius:50%;
+  bottom:-7px;
+  left:-5px;
+}
+
+.gauge-label{
+  position:absolute;
+  bottom:12px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.gauge-low{
+  left:14px;
+  color:#f87171;
+}
+
+.gauge-mid{
+  left:50%;
+  transform:translateX(-50%);
+  color:#fbbf24;
+}
+
+.gauge-high{
+  right:8px;
+  color:#4ade80;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:500;
+  overflow-y:auto;
+  padding:18px;
+}
+
+.modal.show{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+.modal-box{
+  width:100%;
+  max-width:720px;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  margin:18px auto;
+}
+
+.close{
+  position:absolute;
+  right:13px;
+  top:13px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:white;
+  font-size:25px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+  z-index:4;
+}
+
+.modal-image{
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+}
+
+.modal-body{
+  padding:25px;
+}
+
+.modal-body h2{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.modal-price{
+  color:var(--green-dark);
+  font-size:29px;
+  font-weight:900;
+}
+
+.description{
+  color:#374151;
+  line-height:1.6;
+  margin:18px 0;
+  white-space:pre-wrap;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.detail{
+  background:#f3f4f6;
+  border-radius:10px;
+  padding:12px;
+}
+
+.detail strong{
+  display:block;
+  color:var(--gray);
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.open-listing{
+  display:block;
+  background:#111827;
+  color:white;
+  text-decoration:none;
+  text-align:center;
+  border-radius:10px;
+  padding:14px;
+  font-weight:900;
+  margin-top:16px;
+}
+
+/* AUTH */
+
+.auth-content{
+  padding:30px;
+}
+
+.auth-content h2{
+  font-size:28px;
+  margin-bottom:7px;
+}
+
+.auth-subtitle{
+  color:var(--gray);
+  line-height:1.5;
+  margin-bottom:20px;
+}
+
+.auth-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.auth-form button{
+  border:0;
+  border-radius:10px;
+  padding:13px;
+  background:var(--green);
+  font-weight:900;
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:15px;
+  color:var(--gray);
+  font-size:14px;
+}
+
+.auth-switch button{
+  border:0;
+  background:none;
+  color:var(--green-dark);
+  font-weight:900;
+}
+
+.auth-message{
+  margin-top:10px;
+  font-size:13px;
+}
+
+/* ACCOUNT */
+
+.account-content{
+  padding:28px;
+}
+
+.account-content h2{
+  margin-bottom:8px;
+}
+
+.account-email{
+  color:var(--gray);
+  margin-bottom:20px;
+}
+
+.logout{
+  width:100%;
+  border:0;
+  background:#111827;
+  color:white;
+  border-radius:10px;
+  padding:13px;
+  font-weight:900;
+}
+
+/* BOTTOM NAV */
+
 .bottom-nav{
   position:fixed;
-  bottom:0;
   left:0;
   right:0;
+  bottom:0;
   height:72px;
   background:white;
-  border-top:1px solid #e5e7eb;
+  border-top:1px solid var(--border);
   display:flex;
-  justify-content:space-around;
   align-items:center;
+  justify-content:space-around;
   z-index:450;
   box-shadow:0 -4px 18px rgba(0,0,0,.08);
   padding-bottom:env(safe-area-inset-bottom);
@@ -307,156 +791,61 @@ main{
 .bottom-nav button{
   border:0;
   background:none;
+  color:#6b7280;
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:4px;
+  padding:7px 15px;
   font-size:12px;
-  color:#6b7280;
-  font-weight:bold;
-  padding:7px 20px;
+  font-weight:800;
 }
 
 .bottom-nav button.active{
-  color:#16a34a;
+  color:var(--green-dark);
 }
 
 .nav-icon{
-  font-size:22px;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:500;
-  padding:20px;
-  overflow-y:auto;
-}
-
-.modal.show{
+  width:22px;
+  height:22px;
   display:flex;
+  align-items:center;
   justify-content:center;
-  align-items:flex-start;
 }
 
-.modal-box{
-  background:white;
-  width:100%;
-  max-width:700px;
-  border-radius:20px;
-  margin:20px auto;
-  overflow:hidden;
-  position:relative;
+.nav-icon svg{
+  width:22px;
+  height:22px;
+  stroke:currentColor;
 }
 
-.modal-image{
-  width:100%;
-  max-height:400px;
-  object-fit:cover;
-  display:block;
-}
-
-.modal-body{
-  padding:25px;
-}
-
-.close{
-  position:absolute;
-  right:15px;
-  top:15px;
-  width:40px;
-  height:40px;
-  border:none;
-  border-radius:50%;
-  background:white;
-  font-size:25px;
-  box-shadow:0 3px 12px rgba(0,0,0,.2);
-  z-index:2;
-}
-
-.modal-body h2{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
-.modal-price{
-  color:#16a34a;
-  font-size:28px;
-  font-weight:bold;
-  margin-bottom:15px;
-}
-
-.description{
-  line-height:1.6;
-  color:#374151;
-  margin:18px 0;
-  white-space:pre-wrap;
-}
-
-.detail-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:20px 0;
-}
-
-.detail{
-  background:#f3f4f6;
-  padding:12px;
-  border-radius:10px;
-}
-
-.detail strong{
-  display:block;
-  font-size:12px;
-  color:#6b7280;
-  margin-bottom:4px;
-}
-
-.listing-link{
-  display:block;
-  text-align:center;
-  background:#111827;
-  color:white;
-  padding:14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-footer{
-  text-align:center;
-  padding:30px;
-  color:#6b7280;
-  font-size:13px;
-}
+/* RESPONSIVE */
 
 @media(max-width:900px){
-  .search-row{
-    grid-template-columns:1fr 1fr;
-  }
-
   .listings{
     grid-template-columns:repeat(2,1fr);
   }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
 }
 
-@media(max-width:550px){
+@media(max-width:600px){
   .hero h1{
     font-size:32px;
   }
 
-  .search-row{
-    grid-template-columns:1fr;
-  }
-
-  .extra-controls{
+  .search-row,
+  .big-search{
     flex-direction:column;
   }
 
-  .source-buttons{
+  .filters{
+    grid-template-columns:1fr;
+  }
+
+  .source-row{
     flex-direction:column;
   }
 
@@ -469,7 +858,7 @@ footer{
   }
 
   .bottom-nav button{
-    padding:7px 12px;
+    padding:7px 9px;
   }
 }
 </style>
@@ -480,113 +869,193 @@ footer{
 <header>
   <div class="logo">Deal<span>Finder</span></div>
 
-  <div class="saved-count">
-    ❤️ <span id="savedCount">0</span>
-  </div>
+  <button class="account-button" onclick="openAccount()" aria-label="Account">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+    </svg>
+  </button>
 </header>
 
-<section class="hero">
-  <h1>Find the deal. 🚗</h1>
 
-  <p>
-    Cars, motorbikes and parts in one place.
-    Find something cool without hunting through a million listings.
-  </p>
+<!-- HOME -->
+
+<section id="homeScreen" class="screen active">
+
+  <section class="hero">
+    <h1>Hunt smarter. Buy smarter.</h1>
+    <p>
+      Find cars, motorbikes and parts,
+      compare listings and discover deals
+      worth checking out.
+    </p>
+  </section>
+
+  <section class="search-panel">
+
+    <div class="search-row">
+      <input
+        id="homeSearch"
+        type="text"
+        placeholder="Try: Nissan Silvia S13"
+      >
+
+      <button class="primary-button" onclick="runHomeSearch()">
+        Search
+      </button>
+    </div>
+
+    <div class="filters">
+
+      <select id="categoryFilter">
+        <option value="">All categories</option>
+        <option value="Cars">Cars</option>
+        <option value="Motorbikes">Motorbikes</option>
+        <option value="Parts">Parts</option>
+      </select>
+
+      <input id="maxPriceFilter" type="number" placeholder="Maximum price">
+
+      <select id="transmissionFilter">
+        <option value="">Any transmission</option>
+        <option value="Manual">Manual</option>
+        <option value="Automatic">Automatic</option>
+      </select>
+
+      <select id="sortFilter">
+        <option value="newest">Newest</option>
+        <option value="price-low">Cheapest first</option>
+        <option value="price-high">Most expensive first</option>
+      </select>
+
+    </div>
+
+    <div class="source-row">
+      <button class="source-button" onclick="externalTradeMe()">
+        Trade Me
+      </button>
+
+      <button class="source-button" onclick="externalFacebook()">
+        Facebook Marketplace
+      </button>
+    </div>
+
+  </section>
+
+  <main>
+
+    <div class="section-header">
+      <h2>Listings</h2>
+      <div id="homeStatus" class="status"></div>
+    </div>
+
+    <div id="homeListings" class="listings"></div>
+
+  </main>
+
 </section>
 
-<section class="search-panel">
 
-  <div class="search-row">
+<!-- SEARCH -->
 
-    <input
-      id="searchInput"
-      type="text"
-      placeholder="Search S13, MX-5, CBR, SR20..."
-    >
+<section id="searchScreen" class="screen">
 
-    <select id="categorySelect">
-      <option value="">All categories</option>
-      <option value="Cars">Cars</option>
-      <option value="Motorbikes">Motorbikes</option>
-      <option value="Parts">Parts</option>
-    </select>
+  <div class="page-screen">
 
-    <input
-      id="maxPrice"
-      type="number"
-      placeholder="Max price"
-    >
+    <div class="page-title">
+      <h1>Search</h1>
+    </div>
 
-    <select id="sortSelect">
-      <option value="newest">Newest</option>
-      <option value="price-low">Price: Low → High</option>
-      <option value="price-high">Price: High → Low</option>
-    </select>
+    <div class="big-search">
 
-    <button class="search-btn" onclick="applyFilters()">
-      Search
-    </button>
+      <input
+        id="dedicatedSearch"
+        type="text"
+        placeholder="Search cars, bikes, parts..."
+        autocomplete="off"
+      >
 
-  </div>
+      <button class="primary-button" onclick="runDedicatedSearch()">
+        Search
+      </button>
 
-  <div class="source-buttons">
+    </div>
 
-    <button class="trade-btn" onclick="openTradeMe()">
-      🟡 Search Trade Me
-    </button>
 
-    <button class="facebook-btn" onclick="openFacebook()">
-      🔵 Search Facebook Marketplace
-    </button>
+    <div class="subsection">
 
-  </div>
+      <div class="subsection-header">
+        <h2>🕘 Recent searches</h2>
 
-</section>
+        <button class="clear-button" onclick="clearRecentSearches()">
+          Clear all
+        </button>
+      </div>
 
-<main>
+      <div id="recentSearches"></div>
 
-  <div class="top-line">
+    </div>
 
-    <h2 id="pageTitle">Listings</h2>
 
-    <div id="status">
-      Loading...
+    <div class="subsection">
+
+      <div class="subsection-header">
+        <h2>🔍 Saved searches</h2>
+      </div>
+
+      <div id="savedSearches"></div>
+
     </div>
 
   </div>
 
-  <div id="listings" class="listings"></div>
+</section>
 
-</main>
 
-<footer>
-  DealFinder — find cool stuff without the endless scrolling.
-</footer>
+<!-- SAVED -->
 
-<nav class="bottom-nav">
+<section id="savedScreen" class="screen">
 
-  <button id="navHome" class="active" onclick="showHome()">
-    <span class="nav-icon">🏠</span>
-    Home
-  </button>
+  <div class="page-screen">
 
-  <button id="navSearch" onclick="focusSearch()">
-    <span class="nav-icon">🔎</span>
-    Search
-  </button>
+    <div class="saved-header">
+      <h1>Saved</h1>
+      <p>Your saved vehicles and searches.</p>
+    </div>
 
-  <button id="navSaved" onclick="showSaved()">
-    <span class="nav-icon">❤️</span>
-    Saved
-  </button>
 
-</nav>
+    <div class="saved-section">
 
-<div id="modal" class="modal">
+      <h2>🚗 Saved listings</h2>
+
+      <div id="savedListings" class="listings"></div>
+
+    </div>
+
+
+    <div class="saved-section">
+
+      <h2>🔍 Saved searches</h2>
+
+      <div class="subsection">
+        <div id="savedSearchesSavedPage"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LISTING MODAL -->
+
+<div id="listingModal" class="modal">
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal()">×</button>
+    <button class="close" onclick="closeListing()">×</button>
 
     <div id="modalImage"></div>
 
@@ -595,6 +1064,8 @@ footer{
       <h2 id="modalTitle"></h2>
 
       <div id="modalPrice" class="modal-price"></div>
+
+      <div id="dealScoreContainer"></div>
 
       <div id="modalDescription" class="description"></div>
 
@@ -621,20 +1092,30 @@ footer{
         </div>
 
         <div class="detail">
-          <strong>Source</strong>
-          <span id="modalSource"></span>
+          <strong>Year</strong>
+          <span id="modalYear"></span>
         </div>
 
         <div class="detail">
-          <strong>Last checked</strong>
-          <span id="modalChecked"></span>
+          <strong>Mileage</strong>
+          <span id="modalMileage"></span>
         </div>
+
+      </div>
+
+      <div class="ai-box">
+
+        <div class="ai-title">
+          Why DealFinder showed you this
+        </div>
+
+        <div id="modalAIText" class="ai-text"></div>
 
       </div>
 
       <a
         id="modalLink"
-        class="listing-link"
+        class="open-listing"
         href="#"
         target="_blank"
         rel="noopener noreferrer"
@@ -648,22 +1129,179 @@ footer{
 
 </div>
 
+
+<!-- AUTH -->
+
+<div id="authModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeAuth()">×</button>
+
+    <div class="auth-content">
+
+      <h2 id="authTitle">Create your DealFinder account</h2>
+
+      <p class="auth-subtitle">
+        Save listings, searches and preferences across your devices.
+      </p>
+
+      <div class="auth-form">
+
+        <input id="authEmail" type="email" placeholder="Email address">
+
+        <input id="authPassword" type="password" placeholder="Password">
+
+        <button id="authButton" onclick="submitAuth()">
+          Create account
+        </button>
+
+      </div>
+
+      <div id="authMessage" class="auth-message"></div>
+
+      <div class="auth-switch">
+        <span id="authSwitchText">Already have an account?</span>
+        <button onclick="toggleAuthMode()" id="authSwitchButton">
+          Log in
+        </button>
+      </div>
+
+      <div style="text-align:center;margin-top:15px">
+        <button
+          onclick="closeAuth()"
+          style="border:0;background:none;color:#6b7280"
+        >
+          Continue as guest
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ACCOUNT -->
+
+<div id="accountModal" class="modal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeAccount()">×</button>
+
+    <div class="account-content">
+
+      <h2>Your DealFinder account</h2>
+
+      <div id="accountEmail" class="account-email">
+        You're browsing as a guest.
+      </div>
+
+      <button
+        id="accountAction"
+        class="logout"
+        onclick="accountAction()"
+      >
+        Log in / Sign up
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <button id="navHome" class="active" onclick="showScreen('home')">
+
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10.5L12 3l9 7.5"></path>
+        <path d="M5 9.5V21h14V9.5"></path>
+        <path d="M9 21v-6h6v6"></path>
+      </svg>
+    </span>
+
+    Home
+
+  </button>
+
+
+  <button id="navSearch" onclick="showScreen('search')">
+
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="M20 20l-4-4"></path>
+      </svg>
+    </span>
+
+    Search
+
+  </button>
+
+
+  <button id="navSaved" onclick="showScreen('saved')">
+
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21l-8-5-8 5V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </span>
+
+    Saved
+
+  </button>
+
+
+  <button id="navAccount" onclick="openAccount()">
+
+    <span class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+      </svg>
+    </span>
+
+    Account
+
+  </button>
+
+</nav>
+
+
 <script type="module">
+
+/* ==============================
+   SUPABASE
+============================== */
 
 import {
   createClient
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
   "https://lsjhxztfvxnukennnvgq.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
+
 
 const supabase =
   createClient(
@@ -672,30 +1310,168 @@ const supabase =
   );
 
 
-/* =========================
-   STATE
-========================= */
+/* ==============================
+   DEMO DATA
+============================== */
 
-let allListings = [];
+const demoListings = [
+
+  {
+    id:"demo-s13",
+    title:"Nissan Silvia S13",
+    price:8500,
+    category:"Cars",
+    location:"Gisborne",
+    transmission:"Manual",
+    drive:"RWD",
+    year:1991,
+    mileage:"168,000 km",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo listing for testing DealFinder. Manual rear-wheel-drive Silvia S13 with a modified setup.",
+    ai_analysis:
+      "Matches the kind of manual RWD vehicle being searched for. The asking price is only a demo value and has not been compared with live market data.",
+    deal_score:86
+  },
+
+  {
+    id:"demo-mx5",
+    title:"Mazda MX-5 NA",
+    price:9500,
+    category:"Cars",
+    location:"Napier",
+    transmission:"Manual",
+    drive:"RWD",
+    year:1990,
+    mileage:"145,000 km",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo MX-5 listing used to test DealFinder.",
+    ai_analysis:
+      "Manual and RWD. The demo price is being used only to demonstrate the Deal Score interface.",
+    deal_score:74
+  },
+
+  {
+    id:"demo-altezza",
+    title:"Toyota Altezza",
+    price:7800,
+    category:"Cars",
+    location:"Hamilton",
+    transmission:"Manual",
+    drive:"RWD",
+    year:2001,
+    mileage:"182,000 km",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo Toyota Altezza listing.",
+    ai_analysis:
+      "Manual rear-wheel-drive configuration. Real market comparison will be added when permitted listing data is connected.",
+    deal_score:61
+  },
+
+  {
+    id:"demo-cbr",
+    title:"Honda CBR125R",
+    price:3200,
+    category:"Motorbikes",
+    location:"Auckland",
+    transmission:"Manual",
+    drive:"Chain drive",
+    year:2014,
+    mileage:"21,000 km",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo motorbike listing.",
+    ai_analysis:
+      "Sportbike-style 125cc demo listing for testing DealFinder.",
+    deal_score:48
+  },
+
+  {
+    id:"demo-mt",
+    title:"Yamaha MT-125",
+    price:5200,
+    category:"Motorbikes",
+    location:"Tauranga",
+    transmission:"Manual",
+    drive:"Chain drive",
+    year:2018,
+    mileage:"17,000 km",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo Yamaha MT-125 listing.",
+    ai_analysis:
+      "Demo motorbike listing. The score is illustrative only.",
+    deal_score:33
+  },
+
+  {
+    id:"demo-sr20",
+    title:"SR20DET Engine",
+    price:4500,
+    category:"Parts",
+    location:"Wellington",
+    transmission:"",
+    drive:"",
+    year:"",
+    mileage:"",
+    source:"Demo listing",
+    image_url:"",
+    listing_url:"",
+    description:
+      "Demo engine listing for testing the parts category.",
+    ai_analysis:
+      "Parts listing. Real analysis will use verified listing information and permitted comparable data.",
+    deal_score:22
+  }
+
+];
+
+
+/* ==============================
+   STATE
+============================== */
+
+let allListings = [...demoListings];
 
 let currentListings = [];
 
-let savedListings =
+let recentSearches =
   JSON.parse(
-    localStorage.getItem("dealfinder_saved") || "[]"
+    localStorage.getItem("df_recent_searches") || "[]"
   );
 
+let savedSearches =
+  JSON.parse(
+    localStorage.getItem("df_saved_searches") || "[]"
+  );
 
-/* =========================
+let savedListings =
+  JSON.parse(
+    localStorage.getItem("df_saved_listings") || "[]"
+  );
+
+let authMode = "signup";
+
+
+/* ==============================
    HELPERS
-========================= */
+============================== */
 
 function escapeHTML(value){
 
-  if(
-    value === null ||
-    value === undefined
-  ){
+  if(value === null || value === undefined){
     return "";
   }
 
@@ -708,95 +1484,1436 @@ function escapeHTML(value){
 }
 
 
+function getId(listing){
+
+  return String(
+    listing.id ||
+    listing.listing_url ||
+    listing.title
+  );
+
+}
+
+
+function priceNumber(listing){
+
+  const n =
+    Number(
+      String(listing.price || "")
+      .replace(/[^0-9.-]/g,"")
+    );
+
+  return Number.isNaN(n)
+    ? Infinity
+    : n;
+
+}
+
+
 function money(value){
 
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
+  if(value === "" || value === null || value === undefined){
     return "Price not listed";
   }
 
-  const number =
+  const n =
     Number(
       String(value)
-        .replace(/[^0-9.-]/g,"")
+      .replace(/[^0-9.-]/g,"")
     );
 
-  if(Number.isNaN(number)){
+  if(Number.isNaN(n)){
     return escapeHTML(value);
   }
 
   return "NZ$" +
-    number.toLocaleString("en-NZ");
+    n.toLocaleString("en-NZ");
+
 }
 
 
-function getListingId(listing){
+function saveLocalData(){
 
-  return String(
-    listing.id ||
-    listing.external_id ||
-    listing.listing_url ||
-    listing.title
+  localStorage.setItem(
+    "df_recent_searches",
+    JSON.stringify(recentSearches)
   );
+
+  localStorage.setItem(
+    "df_saved_searches",
+    JSON.stringify(savedSearches)
+  );
+
+  localStorage.setItem(
+    "df_saved_listings",
+    JSON.stringify(savedListings)
+  );
+
 }
 
 
 function isSaved(listing){
 
   return savedListings.includes(
-    getListingId(listing)
-  );
-}
-
-
-function updateSavedCount(){
-
-  document.getElementById(
-    "savedCount"
-  ).textContent =
-    savedListings.length;
-}
-
-
-function saveState(){
-
-  localStorage.setItem(
-    "dealfinder_saved",
-    JSON.stringify(savedListings)
+    getId(listing)
   );
 
-  updateSavedCount();
 }
 
 
-function getPrice(listing){
+/* ==============================
+   NAVIGATION
+============================== */
 
-  const number =
-    Number(
-      String(listing.price || "")
-        .replace(/[^0-9.-]/g,"")
+window.showScreen = function(screen){
+
+  document.querySelectorAll(".screen")
+    .forEach(el => el.classList.remove("active"));
+
+  document.querySelectorAll(".bottom-nav button")
+    .forEach(el => el.classList.remove("active"));
+
+
+  if(screen === "home"){
+
+    document
+      .getElementById("homeScreen")
+      .classList.add("active");
+
+    document
+      .getElementById("navHome")
+      .classList.add("active");
+
+    renderHome();
+
+  }
+
+
+  if(screen === "search"){
+
+    document
+      .getElementById("searchScreen")
+      .classList.add("active");
+
+    document
+      .getElementById("navSearch")
+      .classList.add("active");
+
+    renderRecentSearches();
+    renderSavedSearches();
+
+  }
+
+
+  if(screen === "saved"){
+
+    document
+      .getElementById("savedScreen")
+      .classList.add("active");
+
+    document
+      .getElementById("navSaved")
+      .classList.add("active");
+
+    renderSavedListings();
+    renderSavedSearches();
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+};
+
+
+/* ==============================
+   HOME
+============================== */
+
+function renderHome(){
+
+  const results =
+    filterListings(
+      document
+        .getElementById("homeSearch")
+        .value
     );
 
-  return Number.isNaN(number)
-    ? Infinity
-    : number;
+  currentListings = results;
+
+  renderListingGrid(
+    "homeListings",
+    results
+  );
+
+  document
+    .getElementById("homeStatus")
+    .textContent =
+      `${results.length} result${results.length === 1 ? "" : "s"}`;
+
 }
 
 
-/* =========================
-   LOAD LISTINGS
-========================= */
+function filterListings(query=""){
 
-async function loadListings(){
+  query =
+    query
+      .toLowerCase()
+      .trim();
 
-  const status =
-    document.getElementById("status");
 
-  status.textContent =
-    "Loading listings...";
+  const category =
+    document
+      .getElementById("categoryFilter")
+      .value;
+
+
+  const maxPriceValue =
+    document
+      .getElementById("maxPriceFilter")
+      .value;
+
+
+  const maxPrice =
+    maxPriceValue
+      ? Number(maxPriceValue)
+      : Infinity;
+
+
+  const transmission =
+    document
+      .getElementById("transmissionFilter")
+      .value;
+
+
+  const sort =
+    document
+      .getElementById("sortFilter")
+      .value;
+
+
+  let results =
+    allListings.filter(listing => {
+
+      const searchable = [
+        listing.title,
+        listing.description,
+        listing.category,
+        listing.location,
+        listing.transmission,
+        listing.drive,
+        listing.year,
+        listing.mileage,
+        listing.source
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+
+      return (
+        (!query || searchable.includes(query)) &&
+        (!category || listing.category === category) &&
+        (!maxPriceValue || priceNumber(listing) <= maxPrice) &&
+        (!transmission || listing.transmission === transmission)
+      );
+
+    });
+
+
+  if(sort === "price-low"){
+    results.sort(
+      (a,b) =>
+        priceNumber(a) -
+        priceNumber(b)
+    );
+  }
+
+
+  if(sort === "price-high"){
+    results.sort(
+      (a,b) =>
+        priceNumber(b) -
+        priceNumber(a)
+    );
+  }
+
+
+  return results;
+
+}
+
+
+window.runHomeSearch = function(){
+
+  const query =
+    document
+      .getElementById("homeSearch")
+      .value
+      .trim();
+
+
+  if(query){
+    addRecentSearch(query);
+  }
+
+
+  renderHome();
+
+};
+
+
+document
+  .getElementById("homeSearch")
+  .addEventListener("keydown",e => {
+
+    if(e.key === "Enter"){
+      runHomeSearch();
+    }
+
+  });
+
+
+[
+  "categoryFilter",
+  "maxPriceFilter",
+  "transmissionFilter",
+  "sortFilter"
+].forEach(id => {
+
+  document
+    .getElementById(id)
+    .addEventListener("change",renderHome);
+
+});
+
+
+/* ==============================
+   LISTING GRID
+============================== */
+
+function renderListingGrid(
+  containerId,
+  listings
+){
+
+  const container =
+    document.getElementById(containerId);
+
+
+  if(!listings.length){
+
+    container.innerHTML = `
+      <div class="empty">
+        <h3>Nothing found</h3>
+        <p>Try changing your search or filters.</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    listings
+      .map((listing,index) => {
+
+        const saved =
+          isSaved(listing);
+
+
+        return `
+
+          <article
+            class="listing-card"
+            onclick="openListing(${index})"
+          >
+
+            <button
+              class="save-button ${saved ? "saved" : ""}"
+              onclick="
+                event.stopPropagation();
+                toggleSaved(${index});
+              "
+              aria-label="Save listing"
+            >
+              ${saved ? "♥" : "♡"}
+            </button>
+
+
+            ${
+              listing.image_url
+              ?
+              `
+              <img
+                class="listing-image"
+                src="${escapeHTML(listing.image_url)}"
+                alt="${escapeHTML(listing.title)}"
+              >
+              `
+              :
+              `
+              <div class="no-image">
+                🚗
+              </div>
+              `
+            }
+
+
+            <div class="listing-content">
+
+              <div class="listing-title">
+                ${escapeHTML(listing.title)}
+              </div>
+
+              <div class="price">
+                ${money(listing.price)}
+              </div>
+
+              <div class="location">
+                📍 ${escapeHTML(listing.location || "Location not listed")}
+              </div>
+
+              <div class="tags">
+
+                ${
+                  listing.category
+                  ?
+                  `<span class="tag">${escapeHTML(listing.category)}</span>`
+                  :
+                  ""
+                }
+
+                ${
+                  listing.transmission
+                  ?
+                  `<span class="tag">${escapeHTML(listing.transmission)}</span>`
+                  :
+                  ""
+                }
+
+                ${
+                  listing.drive
+                  ?
+                  `<span class="tag">${escapeHTML(listing.drive)}</span>`
+                  :
+                  ""
+                }
+
+              </div>
+
+              <div class="source">
+                ${escapeHTML(listing.source || "DealFinder")}
+              </div>
+
+              <div class="ai-box">
+
+                <div class="ai-title">
+                  DealFinder analysis
+                </div>
+
+                <div class="ai-text">
+                  ${escapeHTML(listing.ai_analysis || "Analysis unavailable.")}
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+/* ==============================
+   SAVE LISTING
+============================== */
+
+window.toggleSaved = function(index){
+
+  const listing =
+    currentListings[index];
+
+
+  if(!listing){
+    return;
+  }
+
+
+  const id =
+    getId(listing);
+
+
+  if(savedListings.includes(id)){
+
+    savedListings =
+      savedListings.filter(
+        savedId => savedId !== id
+      );
+
+  }else{
+
+    savedListings.push(id);
+
+  }
+
+
+  saveLocalData();
+
+  renderHome();
+
+  renderSavedListings();
+
+};
+
+
+/* ==============================
+   SAVED SCREEN
+============================== */
+
+function renderSavedListings(){
+
+  const listings =
+    allListings.filter(
+      listing =>
+        savedListings.includes(
+          getId(listing)
+        )
+    );
+
+
+  currentListings =
+    listings;
+
+
+  renderListingGrid(
+    "savedListings",
+    listings
+  );
+
+}
+
+
+function renderSavedSearches(){
+
+  const html =
+    savedSearches.length
+    ?
+    savedSearches
+      .map((search,index) => `
+
+        <div class="saved-search-item">
+
+          <div class="history-icon">
+            🔍
+          </div>
+
+          <div class="history-main">
+            <strong>${escapeHTML(search)}</strong>
+            <span>Saved search</span>
+          </div>
+
+          <button
+            class="history-action"
+            onclick="useSearch(${index})"
+          >
+            →
+          </button>
+
+          <button
+            class="history-action"
+            onclick="deleteSavedSearch(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `)
+      .join("")
+    :
+    `
+      <div style="color:#6b7280;font-size:14px">
+        No saved searches yet.
+      </div>
+    `;
+
+
+  const searchPage =
+    document.getElementById(
+      "savedSearches"
+    );
+
+
+  const savedPage =
+    document.getElementById(
+      "savedSearchesSavedPage"
+    );
+
+
+  if(searchPage){
+    searchPage.innerHTML = html;
+  }
+
+
+  if(savedPage){
+    savedPage.innerHTML = html;
+  }
+
+}
+
+
+/* ==============================
+   SEARCH SCREEN
+============================== */
+
+function addRecentSearch(query){
+
+  query =
+    query.trim();
+
+
+  if(!query){
+    return;
+  }
+
+
+  recentSearches =
+    recentSearches.filter(
+      item =>
+        item.toLowerCase() !==
+        query.toLowerCase()
+    );
+
+
+  recentSearches.unshift(
+    query
+  );
+
+
+  recentSearches =
+    recentSearches.slice(
+      0,
+      10
+    );
+
+
+  saveLocalData();
+
+  renderRecentSearches();
+
+}
+
+
+function renderRecentSearches(){
+
+  const container =
+    document.getElementById(
+      "recentSearches"
+    );
+
+
+  if(!recentSearches.length){
+
+    container.innerHTML = `
+      <div style="color:#6b7280;font-size:14px">
+        Your recent searches will appear here.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    recentSearches
+      .map((search,index) => `
+
+        <div class="recent-item">
+
+          <div class="history-icon">
+            🕘
+          </div>
+
+          <div
+            class="history-main"
+            onclick="useRecentSearch(${index})"
+            style="cursor:pointer"
+          >
+
+            <strong>
+              ${escapeHTML(search)}
+            </strong>
+
+            <span>
+              Recent search
+            </span>
+
+          </div>
+
+          <button
+            class="history-action"
+            onclick="useRecentSearch(${index})"
+          >
+            →
+          </button>
+
+          <button
+            class="history-action"
+            onclick="deleteRecentSearch(${index})"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+window.useRecentSearch = function(index){
+
+  const search =
+    recentSearches[index];
+
+
+  if(!search){
+    return;
+  }
+
+
+  document
+    .getElementById("dedicatedSearch")
+    .value =
+      search;
+
+
+  runDedicatedSearch();
+
+};
+
+
+window.deleteRecentSearch = function(index){
+
+  recentSearches.splice(
+    index,
+    1
+  );
+
+  saveLocalData();
+
+  renderRecentSearches();
+
+};
+
+
+window.clearRecentSearches = function(){
+
+  recentSearches = [];
+
+  saveLocalData();
+
+  renderRecentSearches();
+
+};
+
+
+window.runDedicatedSearch = function(){
+
+  const query =
+    document
+      .getElementById("dedicatedSearch")
+      .value
+      .trim();
+
+
+  if(!query){
+    return;
+  }
+
+
+  addRecentSearch(query);
+
+
+  document
+    .getElementById("homeSearch")
+    .value =
+      query;
+
+
+  showScreen("home");
+
+  renderHome();
+
+};
+
+
+document
+  .getElementById("dedicatedSearch")
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(event.key === "Enter"){
+        runDedicatedSearch();
+      }
+
+    }
+  );
+
+
+window.useSearch = function(index){
+
+  const search =
+    savedSearches[index];
+
+
+  if(!search){
+    return;
+  }
+
+
+  document
+    .getElementById("homeSearch")
+    .value =
+      search;
+
+
+  showScreen("home");
+
+  renderHome();
+
+};
+
+
+window.deleteSavedSearch = function(index){
+
+  savedSearches.splice(
+    index,
+    1
+  );
+
+  saveLocalData();
+
+  renderSavedSearches();
+
+};
+
+
+/* ==============================
+   LISTING DETAILS
+============================== */
+
+window.openListing = function(index){
+
+  const listing =
+    currentListings[index];
+
+
+  if(!listing){
+    return;
+  }
+
+
+  document
+    .getElementById("modalTitle")
+    .textContent =
+      listing.title || "Untitled listing";
+
+
+  document
+    .getElementById("modalPrice")
+    .textContent =
+      money(listing.price);
+
+
+  document
+    .getElementById("modalDescription")
+    .textContent =
+      listing.description ||
+      "No description provided.";
+
+
+  document
+    .getElementById("modalCategory")
+    .textContent =
+      listing.category || "Not listed";
+
+
+  document
+    .getElementById("modalLocation")
+    .textContent =
+      listing.location || "Not listed";
+
+
+  document
+    .getElementById("modalTransmission")
+    .textContent =
+      listing.transmission || "Not listed";
+
+
+  document
+    .getElementById("modalDrive")
+    .textContent =
+      listing.drive || "Not listed";
+
+
+  document
+    .getElementById("modalYear")
+    .textContent =
+      listing.year || "Not listed";
+
+
+  document
+    .getElementById("modalMileage")
+    .textContent =
+      listing.mileage || "Not listed";
+
+
+  document
+    .getElementById("modalAIText")
+    .textContent =
+      listing.ai_analysis ||
+      "DealFinder does not have enough information to analyse this listing yet.";
+
+
+  const image =
+    document.getElementById(
+      "modalImage"
+    );
+
+
+  if(listing.image_url){
+
+    image.innerHTML = `
+      <img
+        class="modal-image"
+        src="${escapeHTML(listing.image_url)}"
+        alt="${escapeHTML(listing.title)}"
+      >
+    `;
+
+  }else{
+
+    image.innerHTML = `
+      <div class="no-image">
+        🚗
+      </div>
+    `;
+
+  }
+
+
+  const link =
+    document.getElementById(
+      "modalLink"
+    );
+
+
+  link.href =
+    listing.listing_url || "#";
+
+
+  link.style.display =
+    listing.listing_url
+      ? "block"
+      : "none";
+
+
+  renderDealScore(
+    listing.deal_score || 0
+  );
+
+
+  document
+    .getElementById("listingModal")
+    .classList.add("show");
+
+};
+
+
+function renderDealScore(score){
+
+  score =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Number(score) || 0
+      )
+    );
+
+
+  let message =
+    "Worth investigating";
+
+
+  if(score < 40){
+    message = "Low deal value";
+  }else if(score < 70){
+    message = "Worth investigating";
+  }else{
+    message = "Strong deal";
+  }
+
+
+  const rotation =
+    -90 +
+    (score / 100) * 180;
+
+
+  document
+    .getElementById("dealScoreContainer")
+    .innerHTML = `
+
+      <div class="deal-score">
+
+        <div class="deal-score-label">
+          DEAL SCORE
+        </div>
+
+        <div class="score-number">
+          ${score}
+        </div>
+
+        <div class="score-message">
+          ${message}
+        </div>
+
+        <div class="speedometer">
+
+          <div class="gauge"></div>
+
+          <div
+            class="needle"
+            id="dealNeedle"
+          ></div>
+
+          <div class="gauge-label gauge-low">
+            LOW
+          </div>
+
+          <div class="gauge-label gauge-mid">
+            MID
+          </div>
+
+          <div class="gauge-label gauge-high">
+            HIGH
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+  requestAnimationFrame(() => {
+
+    setTimeout(() => {
+
+      const needle =
+        document.getElementById(
+          "dealNeedle"
+        );
+
+
+      if(needle){
+
+        needle.style.transform =
+          `rotate(${rotation}deg)`;
+
+      }
+
+    },100);
+
+  });
+
+}
+
+
+window.closeListing = function(){
+
+  document
+    .getElementById("listingModal")
+    .classList.remove("show");
+
+};
+
+
+/* ==============================
+   EXTERNAL MARKETPLACE SEARCH
+============================== */
+
+window.externalTradeMe = function(){
+
+  const query =
+    document
+      .getElementById("homeSearch")
+      .value
+      .trim();
+
+
+  window.open(
+    "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
+    encodeURIComponent(query),
+    "_blank"
+  );
+
+};
+
+
+window.externalFacebook = function(){
+
+  const query =
+    document
+      .getElementById("homeSearch")
+      .value
+      .trim();
+
+
+  window.open(
+    "https://www.facebook.com/marketplace/search/?query=" +
+    encodeURIComponent(query),
+    "_blank"
+  );
+
+};
+
+
+/* ==============================
+   ACCOUNT
+============================== */
+
+window.openAccount = async function(){
+
+  const {
+    data
+  } =
+    await supabase.auth.getSession();
+
+
+  if(data && data.session){
+
+    document
+      .getElementById("accountEmail")
+      .textContent =
+        data.session.user.email;
+
+
+    document
+      .getElementById("accountAction")
+      .textContent =
+        "Log out";
+
+  }else{
+
+    document
+      .getElementById("accountEmail")
+      .textContent =
+        "You're browsing as a guest.";
+
+
+    document
+      .getElementById("accountAction")
+      .textContent =
+        "Log in / Sign up";
+
+  }
+
+
+  document
+    .getElementById("accountModal")
+    .classList.add("show");
+
+};
+
+
+window.closeAccount = function(){
+
+  document
+    .getElementById("accountModal")
+    .classList.remove("show");
+
+};
+
+
+window.accountAction = async function(){
+
+  const {
+    data
+  } =
+    await supabase.auth.getSession();
+
+
+  if(data && data.session){
+
+    await supabase.auth.signOut();
+
+    closeAccount();
+
+  }else{
+
+    closeAccount();
+
+    authMode = "signup";
+
+    updateAuthUI();
+
+    document
+      .getElementById("authModal")
+      .classList.add("show");
+
+  }
+
+};
+
+
+/* ==============================
+   AUTH
+============================== */
+
+function updateAuthUI(){
+
+  if(authMode === "signup"){
+
+    document
+      .getElementById("authTitle")
+      .textContent =
+        "Create your DealFinder account";
+
+
+    document
+      .getElementById("authButton")
+      .textContent =
+        "Create account";
+
+
+    document
+      .getElementById("authSwitchText")
+      .textContent =
+        "Already have an account?";
+
+
+    document
+      .getElementById("authSwitchButton")
+      .textContent =
+        "Log in";
+
+  }else{
+
+    document
+      .getElementById("authTitle")
+      .textContent =
+        "Welcome back";
+
+
+    document
+      .getElementById("authButton")
+      .textContent =
+        "Log in";
+
+
+    document
+      .getElementById("authSwitchText")
+      .textContent =
+        "Don't have an account?";
+
+
+    document
+      .getElementById("authSwitchButton")
+      .textContent =
+        "Sign up";
+
+  }
+
+}
+
+
+window.toggleAuthMode = function(){
+
+  authMode =
+    authMode === "signup"
+      ? "login"
+      : "signup";
+
+
+  document
+    .getElementById("authMessage")
+    .textContent =
+      "";
+
+
+  updateAuthUI();
+
+};
+
+
+window.submitAuth = async function(){
+
+  const email =
+    document
+      .getElementById("authEmail")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("authPassword")
+      .value;
+
+
+  const message =
+    document
+      .getElementById("authMessage");
+
+
+  if(!email || !password){
+
+    message.textContent =
+      "Please enter an email and password.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Working...";
+
+
+  try{
+
+    if(authMode === "signup"){
+
+      const {
+        error
+      } =
+        await supabase.auth.signUp({
+          email,
+          password
+        });
+
+
+      if(error){
+        throw error;
+      }
+
+
+      message.textContent =
+        "Account created. Check your email if confirmation is required.";
+
+    }else{
+
+      const {
+        error
+      } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+
+      if(error){
+        throw error;
+      }
+
+
+      message.textContent =
+        "Logged in!";
+
+
+      setTimeout(
+        closeAuth,
+        500
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    message.textContent =
+      error.message ||
+      "Something went wrong.";
+
+  }
+
+};
+
+
+window.closeAuth = function(){
+
+  document
+    .getElementById("authModal")
+    .classList.remove("show");
+
+};
+
+
+/* ==============================
+   MODAL CLICK OUTSIDE
+============================== */
+
+[
+  "listingModal",
+  "authModal",
+  "accountModal"
+].forEach(id => {
+
+  document
+    .getElementById(id)
+    .addEventListener("click",event => {
+
+      if(event.target === event.currentTarget){
+
+        event.currentTarget
+          .classList.remove("show");
+
+      }
+
+    });
+
+});
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+
+      document
+        .querySelectorAll(".modal.show")
+        .forEach(modal =>
+          modal.classList.remove("show")
+        );
+
+    }
+
+  }
+);
+
+
+/* ==============================
+   SUPABASE LISTINGS
+============================== */
+
+async function loadSupabaseListings(){
 
   try{
 
@@ -808,874 +2925,57 @@ async function loadListings(){
         .from("listings")
         .select("*")
         .eq("is_active",true)
-        .order("created_at",{
-          ascending:false
-        });
+        .order("created_at",{ascending:false});
+
 
     if(error){
-      throw error;
+      console.warn(
+        "Supabase listings unavailable:",
+        error.message
+      );
+
+      return;
     }
 
-    allListings =
-      data || [];
 
-    applyFilters();
+    if(data && data.length){
+
+      allListings =
+        data;
+
+      renderHome();
+
+      renderSavedListings();
+
+    }
 
   }catch(error){
 
-    console.error(error);
+    console.warn(
+      "Listing backend unavailable.",
+      error
+    );
 
-    status.textContent =
-      "Could not load listings";
-
-    document.getElementById(
-      "listings"
-    ).innerHTML = `
-      <div class="empty">
-        <h3>⚠️ Couldn't load listings</h3>
-        <p>
-          Check the Supabase connection
-          and listings table.
-        </p>
-      </div>
-    `;
   }
+
 }
 
 
-/* =========================
-   FILTERING
-========================= */
-
-window.applyFilters = function(){
-
-  const search =
-    document
-      .getElementById("searchInput")
-      .value
-      .toLowerCase()
-      .trim();
-
-  const category =
-    document.getElementById(
-      "categorySelect"
-    ).value;
-
-  const maxPriceValue =
-    document.getElementById(
-      "maxPrice"
-    ).value;
-
-  const maxPrice =
-    maxPriceValue
-      ? Number(maxPriceValue)
-      : Infinity;
-
-  const sort =
-    document.getElementById(
-      "sortSelect"
-    ).value;
-
-
-  let filtered =
-    allListings.filter(
-      listing => {
-
-        const searchable = [
-
-          listing.title,
-          listing.description,
-          listing.details,
-          listing.category,
-          listing.location,
-          listing.source,
-          listing.transmission,
-          listing.drive
-
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-
-        const matchesSearch =
-          !search ||
-          searchable.includes(search);
-
-
-        const matchesCategory =
-          !category ||
-          String(
-            listing.category || ""
-          ).toLowerCase() ===
-          category.toLowerCase();
-
-
-        const matchesPrice =
-          !maxPriceValue ||
-          (
-            getPrice(listing) <=
-            maxPrice
-          );
-
-
-        return (
-          matchesSearch &&
-          matchesCategory &&
-          matchesPrice
-        );
-      }
-    );
-
-
-  if(sort === "price-low"){
-
-    filtered.sort(
-      (a,b) =>
-        getPrice(a) -
-        getPrice(b)
-    );
-
-  }else if(sort === "price-high"){
-
-    filtered.sort(
-      (a,b) =>
-        getPrice(b) -
-        getPrice(a)
-    );
-
-  }else{
-
-    filtered.sort(
-      (a,b) =>
-        new Date(
-          b.created_at || 0
-        ) -
-        new Date(
-          a.created_at || 0
-        )
-    );
-  }
-
-
-  currentListings =
-    filtered;
-
-  renderListings(
-    filtered
-  );
-
-
-  document.getElementById(
-    "pageTitle"
-  ).textContent =
-    "Listings";
-
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    `${filtered.length} result${
-      filtered.length === 1
-        ? ""
-        : "s"
-    }`;
-};
-
-
-/* =========================
-   RENDER
-========================= */
-
-function renderListings(listings){
-
-  const container =
-    document.getElementById(
-      "listings"
-    );
-
-
-  if(!listings.length){
-
-    container.innerHTML = `
-      <div class="empty">
-
-        <h3>
-          No listings found 😭
-        </h3>
-
-        <p>
-          Try changing your search
-          or filters.
-        </p>
-
-      </div>
-    `;
-
-    return;
-  }
-
-
-  container.innerHTML =
-    listings
-      .map(
-        (listing,index) => {
-
-          const title =
-            listing.title ||
-            "Untitled listing";
-
-          const image =
-            listing.image_url ||
-            listing.image ||
-            "";
-
-          const description =
-            listing.description ||
-            listing.details ||
-            "No description available.";
-
-          const category =
-            listing.category ||
-            "Other";
-
-          const location =
-            listing.location ||
-            "Location not listed";
-
-          const source =
-            listing.source ||
-            "Unknown";
-
-          const saved =
-            isSaved(listing);
-
-
-          return `
-
-            <article
-              class="listing-card"
-              onclick="openListing(${index})"
-            >
-
-              <button
-                class="heart ${
-                  saved ? "saved" : ""
-                }"
-                onclick="
-                  event.stopPropagation();
-                  toggleSaved(${index});
-                "
-              >
-                ${
-                  saved
-                    ? "❤️"
-                    : "♡"
-                }
-              </button>
-
-
-              ${
-                image
-
-                ?
-
-                `
-                <img
-                  class="listing-image"
-                  src="${escapeHTML(image)}"
-                  alt="${escapeHTML(title)}"
-                  onerror="
-                    this.outerHTML=
-                    '<div class=&quot;no-image&quot;>🚗</div>'
-                  "
-                >
-                `
-
-                :
-
-                `
-                <div class="no-image">
-                  🚗
-                </div>
-                `
-              }
-
-
-              <div class="listing-content">
-
-                <div class="listing-title">
-                  ${escapeHTML(title)}
-                </div>
-
-                <div class="price">
-                  ${money(listing.price)}
-                </div>
-
-                <div class="location">
-                  📍 ${escapeHTML(location)}
-                </div>
-
-                <div class="tags">
-
-                  <span class="tag">
-                    ${escapeHTML(category)}
-                  </span>
-
-                  ${
-                    listing.transmission
-                    ?
-                    `
-                    <span class="tag">
-                      ${escapeHTML(
-                        listing.transmission
-                      )}
-                    </span>
-                    `
-                    :
-                    ""
-                  }
-
-                  ${
-                    listing.drive
-                    ?
-                    `
-                    <span class="tag">
-                      ${escapeHTML(
-                        listing.drive
-                      )}
-                    </span>
-                    `
-                    :
-                    ""
-                  }
-
-                </div>
-
-                <div class="source">
-                  Source:
-                  ${escapeHTML(source)}
-                </div>
-
-              </div>
-
-            </article>
-
-          `;
-        }
-      )
-      .join("");
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-window.toggleSaved =
-function(index){
-
-  const listing =
-    currentListings[index];
-
-  if(!listing){
-    return;
-  }
-
-  const id =
-    getListingId(listing);
-
-
-  if(
-    savedListings.includes(id)
-  ){
-
-    savedListings =
-      savedListings.filter(
-        savedId =>
-          savedId !== id
-      );
-
-  }else{
-
-    savedListings.push(id);
-
-  }
-
-
-  saveState();
-
-  renderListings(
-    currentListings
-  );
-};
-
-
-/* =========================
-   SAVED PAGE
-========================= */
-
-window.showSaved =
-function(){
-
-  setNav("navSaved");
-
-  const saved =
-    allListings.filter(
-      listing =>
-        savedListings.includes(
-          getListingId(listing)
-        )
-    );
-
-
-  currentListings =
-    saved;
-
-
-  document.getElementById(
-    "pageTitle"
-  ).textContent =
-    "Saved";
-
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    `${saved.length} saved`;
-
-
-  renderListings(saved);
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-};
-
-
-/* =========================
-   HOME
-========================= */
-
-window.showHome =
-function(){
-
-  setNav("navHome");
-
-  applyFilters();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-};
-
-
-/* =========================
-   SEARCH TAB
-========================= */
-
-window.focusSearch =
-function(){
-
-  setNav("navSearch");
-
-  document
-    .querySelector(".search-panel")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-
-  setTimeout(
-    () =>
-      document
-        .getElementById(
-          "searchInput"
-        )
-        .focus(),
-    400
-  );
-};
-
-
-/* =========================
-   NAV
-========================= */
-
-function setNav(active){
-
-  document
-    .querySelectorAll(
-      ".bottom-nav button"
-    )
-    .forEach(
-      button =>
-        button.classList.remove(
-          "active"
-        )
-    );
-
-
-  const button =
-    document.getElementById(
-      active
-    );
-
-  if(button){
-    button.classList.add(
-      "active"
-    );
-  }
-}
-
-
-/* =========================
-   OPEN LISTING
-========================= */
-
-window.openListing =
-function(index){
-
-  const listing =
-    currentListings[index];
-
-  if(!listing){
-    return;
-  }
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    listing.title ||
-    "Untitled listing";
-
-
-  document.getElementById(
-    "modalPrice"
-  ).textContent =
-    money(listing.price);
-
-
-  document.getElementById(
-    "modalDescription"
-  ).textContent =
-    listing.description ||
-    listing.details ||
-    "No description available.";
-
-
-  document.getElementById(
-    "modalCategory"
-  ).textContent =
-    listing.category ||
-    "Not listed";
-
-
-  document.getElementById(
-    "modalLocation"
-  ).textContent =
-    listing.location ||
-    "Not listed";
-
-
-  document.getElementById(
-    "modalTransmission"
-  ).textContent =
-    listing.transmission ||
-    "Not listed";
-
-
-  document.getElementById(
-    "modalDrive"
-  ).textContent =
-    listing.drive ||
-    "Not listed";
-
-
-  document.getElementById(
-    "modalSource"
-  ).textContent =
-    listing.source ||
-    "Unknown";
-
-
-  document.getElementById(
-    "modalChecked"
-  ).textContent =
-    formatDate(
-      listing.last_checked ||
-      listing.updated_at ||
-      listing.created_at
-    );
-
-
-  const link =
-    listing.listing_url ||
-    listing.url ||
-    "#";
-
-
-  const modalLink =
-    document.getElementById(
-      "modalLink"
-    );
-
-
-  modalLink.href =
-    link;
-
-
-  modalLink.style.display =
-    link === "#"
-      ? "none"
-      : "block";
-
-
-  const image =
-    listing.image_url ||
-    listing.image ||
-    "";
-
-
-  const modalImage =
-    document.getElementById(
-      "modalImage"
-    );
-
-
-  if(image){
-
-    modalImage.innerHTML = `
-      <img
-        class="modal-image"
-        src="${escapeHTML(image)}"
-        alt="${escapeHTML(
-          listing.title || ""
-        )}"
-      >
-    `;
-
-  }else{
-
-    modalImage.innerHTML = `
-      <div class="no-image">
-        🚗
-      </div>
-    `;
-  }
-
-
-  document
-    .getElementById("modal")
-    .classList.add("show");
-};
-
-
-/* =========================
-   CLOSE MODAL
-========================= */
-
-window.closeModal =
-function(){
-
-  document
-    .getElementById("modal")
-    .classList.remove(
-      "show"
-    );
-};
-
-
-document
-  .getElementById("modal")
-  .addEventListener(
-    "click",
-    function(event){
-
-      if(
-        event.target === this
-      ){
-        closeModal();
-      }
-
-    }
-  );
-
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.key === "Escape"
-    ){
-      closeModal();
-    }
-
-  }
-);
-
-
-/* =========================
-   DATE
-========================= */
-
-function formatDate(value){
-
-  if(!value){
-    return "Not available";
-  }
-
-  const date =
-    new Date(value);
-
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return "Not available";
-  }
-
-  return date.toLocaleString(
-    "en-NZ",
-    {
-      dateStyle:"medium",
-      timeStyle:"short"
-    }
-  );
-}
-
-
-/* =========================
-   TRADE ME
-========================= */
-
-window.openTradeMe =
-function(){
-
-  const query =
-    document
-      .getElementById(
-        "searchInput"
-      )
-      .value
-      .trim();
-
-
-  const url =
-    "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
-    encodeURIComponent(query);
-
-
-  window.open(
-    url,
-    "_blank"
-  );
-};
-
-
-/* =========================
-   FACEBOOK
-========================= */
-
-window.openFacebook =
-function(){
-
-  const query =
-    document
-      .getElementById(
-        "searchInput"
-      )
-      .value
-      .trim();
-
-
-  const url =
-    "https://www.facebook.com/marketplace/search/?query=" +
-    encodeURIComponent(query);
-
-
-  window.open(
-    url,
-    "_blank"
-  );
-};
-
-
-/* =========================
-   ENTER KEY
-========================= */
-
-document
-  .getElementById(
-    "searchInput"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if(
-        event.key === "Enter"
-      ){
-        applyFilters();
-      }
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "maxPrice"
-  )
-  .addEventListener(
-    "keydown",
-    event => {
-
-      if(
-        event.key === "Enter"
-      ){
-        applyFilters();
-      }
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "sortSelect"
-  )
-  .addEventListener(
-    "change",
-    applyFilters
-  );
-
-
-document
-  .getElementById(
-    "categorySelect"
-  )
-  .addEventListener(
-    "change",
-    applyFilters
-  );
-
-
-/* =========================
+/* ==============================
    START
-========================= */
+============================== */
 
-updateSavedCount();
+renderHome();
 
-loadListings();
+renderRecentSearches();
+
+renderSavedSearches();
+
+updateAuthUI();
+
+loadSupabaseListings();
 
 </script>
 
 </body>
-</html>
+  </html>
