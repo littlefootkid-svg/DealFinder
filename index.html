@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>DealFinder</title>
 
   <style>
@@ -49,6 +50,7 @@
 
     .hero p {
       font-size: 18px;
+      line-height: 1.5;
     }
 
     .search-box {
@@ -74,6 +76,7 @@
     input,
     select {
       border: 1px solid #ccd2dc;
+      background: white;
     }
 
     button {
@@ -87,7 +90,7 @@
       font-weight: bold;
     }
 
-    .sources {
+    .source-buttons {
       max-width: 1100px;
       margin: 20px auto;
       display: grid;
@@ -99,23 +102,16 @@
       border: none;
       color: white;
       font-weight: bold;
-      padding: 18px;
-      border-radius: 14px;
+      min-height: 60px;
       font-size: 17px;
     }
 
-    .trademe {
+    .trade-button {
       background: #e53935;
     }
 
-    .facebook {
+    .facebook-button {
       background: #1877f2;
-    }
-
-    .source-icon {
-      font-size: 25px;
-      vertical-align: middle;
-      margin-right: 8px;
     }
 
     .results {
@@ -125,6 +121,14 @@
 
     .results h2 {
       margin-bottom: 15px;
+    }
+
+    .status {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 12px;
+      color: #475569;
     }
 
     .grid {
@@ -146,7 +150,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 75px;
+      font-size: 65px;
+      overflow: hidden;
+    }
+
+    .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .content {
@@ -155,6 +166,7 @@
 
     .content h3 {
       margin: 0 0 8px;
+      padding-right: 40px;
     }
 
     .price {
@@ -180,41 +192,42 @@
       font-size: 13px;
     }
 
+    .source {
+      display: inline-block;
+      margin-top: 8px;
+      margin-left: 5px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: #eef2ff;
+      color: #3730a3;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     .save {
       float: right;
       border: none;
       background: #eef2ff;
-      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 22px;
+      padding: 10px 13px;
     }
 
-    .listing-button {
+    .view-button {
       display: block;
+      width: 100%;
       margin-top: 15px;
-      padding: 11px;
-      text-align: center;
-      text-decoration: none;
+      border: none;
       background: #111827;
       color: white;
-      border-radius: 8px;
       font-weight: bold;
     }
 
-    .ai-box {
-      max-width: 1100px;
-      margin: 20px auto;
-      padding: 20px;
+    .empty {
       background: white;
+      padding: 30px;
       border-radius: 15px;
-      box-shadow: 0 5px 20px #0001;
-    }
-
-    .ai-box h3 {
-      margin-top: 0;
-    }
-
-    .ai-status {
-      color: #2563eb;
-      font-weight: bold;
+      text-align: center;
     }
 
     @media (max-width: 800px) {
@@ -223,14 +236,8 @@
         margin: 15px;
       }
 
-      .sources {
-        grid-template-columns: 1fr;
-        margin: 15px;
-      }
-
       .hero,
-      .results,
-      .ai-box {
+      .results {
         margin-left: 15px;
         margin-right: 15px;
       }
@@ -241,6 +248,11 @@
 
       .grid {
         grid-template-columns: 1fr;
+      }
+
+      .source-buttons {
+        grid-template-columns: 1fr;
+        margin: 15px;
       }
     }
   </style>
@@ -254,9 +266,10 @@
 
 <section class="hero">
   <h2>Find the deals.</h2>
+
   <p>
     Search cars, motorbikes and parts and let DealFinder
-    help you find listings worth checking out.
+    find listings worth checking out.
   </p>
 </section>
 
@@ -290,46 +303,31 @@
 
 </section>
 
-<section class="sources">
+<section class="source-buttons">
 
   <button
-    class="source-button trademe"
-    onclick="openTradeMe()"
+    class="source-button trade-button"
+    onclick="searchTradeMe()"
   >
-    <span class="source-icon">🔴</span>
-    Search Trade Me
+    🟠 Search Trade Me
   </button>
 
   <button
-    class="source-button facebook"
-    onclick="openFacebook()"
+    class="source-button facebook-button"
+    onclick="searchFacebook()"
   >
-    <span class="source-icon">ⓕ</span>
-    Search Facebook Marketplace
+    f&nbsp;&nbsp; Search Facebook Marketplace
   </button>
-
-</section>
-
-<section class="ai-box">
-
-  <h3>🤖 DealFinder AI</h3>
-
-  <p>
-    Describe what you're looking for and DealFinder will
-    match it against the listings currently available in the app.
-  </p>
-
-  <p class="ai-status" id="aiStatus">
-    Ready to find deals.
-  </p>
 
 </section>
 
 <section class="results">
 
-  <h2 id="resultTitle">
-    Latest Deals
-  </h2>
+  <div class="status" id="status">
+    Connecting to DealFinder database...
+  </div>
+
+  <h2 id="resultTitle">Loading deals...</h2>
 
   <div
     class="grid"
@@ -338,78 +336,80 @@
 
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-const listings = [
+const SUPABASE_URL =
+  "https://lsjhxztfvxnukennnvgq.supabase.co";
 
-  {
-    name: "Nissan Silvia S13",
-    price: 8500,
-    category: "Cars",
-    location: "Gisborne",
-    details: "Manual • RWD • Project car",
-    icon: "🚗",
-    deal: "Potential deal"
-  },
+const SUPABASE_KEY =
+  "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
 
-  {
-    name: "Mazda MX-5 NA",
-    price: 9500,
-    category: "Cars",
-    location: "Napier",
-    details: "Manual • RWD • Convertible",
-    icon: "🏎️",
-    deal: "Good price"
-  },
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  {
-    name: "Toyota Altezza",
-    price: 7800,
-    category: "Cars",
-    location: "Hamilton",
-    details: "Manual • RWD • Sedan",
-    icon: "🚘",
-    deal: "Potential deal"
-  },
 
-  {
-    name: "Honda CBR125R",
-    price: 3200,
-    category: "Motorbikes",
-    location: "Auckland",
-    details: "Manual • Sport bike",
-    icon: "🏍️",
-    deal: "Good price"
-  },
+let listings = [];
 
-  {
-    name: "Yamaha MT-125",
-    price: 5200,
-    category: "Motorbikes",
-    location: "Tauranga",
-    details: "Manual • Naked bike",
-    icon: "🏍️",
-    deal: "Potential deal"
-  },
 
-  {
-    name: "SR20DET Engine",
-    price: 4500,
-    category: "Parts",
-    location: "Wellington",
-    details: "Turbo • SR20 • Engine",
-    icon: "⚙️",
-    deal: "Good price"
+/* -------------------------------
+   LOAD LISTINGS FROM SUPABASE
+-------------------------------- */
+
+async function loadListings() {
+
+  const status =
+    document.getElementById("status");
+
+  status.textContent =
+    "🔄 Loading listings from Supabase...";
+
+  const { data, error } =
+    await supabaseClient
+      .from("listings")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Could not load listings from Supabase.";
+
+    showListings([]);
+
+    return;
   }
 
-];
+  listings = data || [];
+
+  status.textContent =
+    "🟢 DealFinder database connected.";
+
+  showListings(listings);
+}
+
+
+/* -------------------------------
+   DISPLAY LISTINGS
+-------------------------------- */
 
 function showListings(items) {
 
   const container =
     document.getElementById("listings");
 
-  document.getElementById("resultTitle").textContent =
+  const title =
+    document.getElementById("resultTitle");
+
+  title.textContent =
     items.length +
     " Deal" +
     (items.length === 1 ? "" : "s");
@@ -419,23 +419,62 @@ function showListings(items) {
   if (items.length === 0) {
 
     container.innerHTML = `
-      <div>
+      <div class="empty">
         <h3>No deals found.</h3>
-        <p>Try changing your search.</p>
+        <p>
+          Try changing your search or price limit.
+        </p>
       </div>
     `;
 
     return;
   }
 
+
   items.forEach(item => {
+
+    const imageHTML =
+      item.image_url
+        ? `<img
+             src="${escapeHTML(item.image_url)}"
+             alt="${escapeHTML(item.title)}"
+             onerror="this.parentElement.innerHTML='🚗'"
+           >`
+        : getIcon(item.category);
+
+
+    const price =
+      item.price != null
+        ? "NZ$" +
+          Number(item.price).toLocaleString()
+        : "Price unavailable";
+
+
+    const location =
+      item.location ||
+      "Location unavailable";
+
+
+    const details =
+      item.details ||
+      "No details available";
+
+
+    const source =
+      item.source ||
+      "DealFinder";
+
+
+    const deal =
+      getDealLabel(item.price);
+
 
     container.innerHTML += `
 
       <article class="card">
 
         <div class="image">
-          ${item.icon}
+          ${imageHTML}
         </div>
 
         <div class="content">
@@ -447,20 +486,42 @@ function showListings(items) {
             ♡
           </button>
 
-          <h3>${item.name}</h3>
+          <h3>
+            ${escapeHTML(item.title)}
+          </h3>
 
           <div class="price">
-            NZ$${item.price.toLocaleString()}
+            ${price}
           </div>
 
           <div class="details">
-            📍 ${item.location}<br>
-            ${item.details}
+            📍 ${escapeHTML(location)}<br>
+            ${escapeHTML(details)}
           </div>
 
           <span class="deal">
-            ${item.deal}
+            ${deal}
           </span>
+
+          <span class="source">
+            ${escapeHTML(source)}
+          </span>
+
+          ${
+            item.listing_url
+              ? `
+                <button
+                  class="view-button"
+                  onclick="window.open(
+                    '${escapeJS(item.listing_url)}',
+                    '_blank'
+                  )"
+                >
+                  View original listing
+                </button>
+              `
+              : ""
+          }
 
         </div>
 
@@ -472,12 +533,10 @@ function showListings(items) {
 
 }
 
-function toggleSave(button) {
 
-  button.textContent =
-    button.textContent === "♡" ? "♥" : "♡";
-
-}
+/* -------------------------------
+   SEARCH
+-------------------------------- */
 
 function searchDeals() {
 
@@ -488,101 +547,202 @@ function searchDeals() {
       .toLowerCase()
       .trim();
 
+
   const category =
     document.getElementById("category").value;
+
 
   const maxPrice =
     Number(
       document.getElementById("maxPrice").value
     ) || Infinity;
 
-  document.getElementById("aiStatus").textContent =
-    "🤖 DealFinder is matching your search...";
 
-  const results = listings.filter(item => {
+  const results =
+    listings.filter(item => {
 
-    const searchableText =
-      (
-        item.name +
-        " " +
-        item.details +
-        " " +
-        item.location
-      ).toLowerCase();
+      const searchableText =
+        (
+          (item.title || "") +
+          " " +
+          (item.details || "") +
+          " " +
+          (item.location || "") +
+          " " +
+          (item.category || "")
+        ).toLowerCase();
 
-    const matchesSearch =
-      search === "" ||
-      searchableText.includes(search) ||
-      search
-        .split(" ")
-        .some(word =>
-          word.length > 2 &&
-          searchableText.includes(word)
-        );
 
-    const matchesCategory =
-      category === "all" ||
-      item.category === category;
+      const matchesSearch =
+        search === "" ||
+        searchableText.includes(search);
 
-    const matchesPrice =
-      item.price <= maxPrice;
 
-    return (
-      matchesSearch &&
-      matchesCategory &&
-      matchesPrice
-    );
+      const matchesCategory =
+        category === "all" ||
+        item.category === category;
 
-  });
+
+      const matchesPrice =
+        item.price == null ||
+        Number(item.price) <= maxPrice;
+
+
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesPrice
+      );
+
+    });
+
 
   showListings(results);
 
-  setTimeout(() => {
-
-    document.getElementById("aiStatus").textContent =
-      "🤖 Found " +
-      results.length +
-      " matching deal" +
-      (results.length === 1 ? "" : "s") +
-      ".";
-
-  }, 400);
-
 }
 
-function openTradeMe() {
+
+/* -------------------------------
+   TRADE ME SEARCH
+-------------------------------- */
+
+function searchTradeMe() {
 
   const search =
-    document.getElementById("search").value.trim();
+    document
+      .getElementById("search")
+      .value
+      .trim();
+
 
   const query =
     search || "cars";
+
 
   const url =
     "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
     encodeURIComponent(query);
 
+
   window.open(url, "_blank");
 
 }
 
-function openFacebook() {
+
+/* -------------------------------
+   FACEBOOK SEARCH
+-------------------------------- */
+
+function searchFacebook() {
 
   const search =
-    document.getElementById("search").value.trim();
+    document
+      .getElementById("search")
+      .value
+      .trim();
+
 
   const query =
     search || "cars";
+
 
   const url =
     "https://www.facebook.com/marketplace/search/?query=" +
     encodeURIComponent(query);
 
+
   window.open(url, "_blank");
 
 }
 
-showListings(listings);
+
+/* -------------------------------
+   ICONS
+-------------------------------- */
+
+function getIcon(category) {
+
+  if (category === "Motorbikes") {
+    return "🏍️";
+  }
+
+  if (category === "Parts") {
+    return "⚙️";
+  }
+
+  return "🚗";
+}
+
+
+/* -------------------------------
+   DEAL LABEL
+-------------------------------- */
+
+function getDealLabel(price) {
+
+  if (!price) {
+    return "Check price";
+  }
+
+  if (Number(price) <= 5000) {
+    return "Good price";
+  }
+
+  if (Number(price) <= 10000) {
+    return "Potential deal";
+  }
+
+  return "Worth checking";
+}
+
+
+/* -------------------------------
+   SAVE BUTTON
+-------------------------------- */
+
+function toggleSave(button) {
+
+  if (button.textContent.trim() === "♡") {
+    button.textContent = "♥";
+  } else {
+    button.textContent = "♡";
+  }
+
+}
+
+
+/* -------------------------------
+   SECURITY HELPERS
+-------------------------------- */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeJS(value) {
+
+  return String(value ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
+
+}
+
+
+/* -------------------------------
+   START APP
+-------------------------------- */
+
+loadListings();
 
 </script>
 
