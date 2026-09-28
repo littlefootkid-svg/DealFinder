@@ -1,439 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>DealFinder</title>
+<title>DealFinder</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f4f6;
+  color:#111827;
+  padding-bottom:82px;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+button,input,select{
+  font:inherit;
+}
 
-    header h1 {
-      font-size: 26px;
-    }
+button{
+  cursor:pointer;
+}
 
-    header span {
-      color: #22c55e;
-    }
+header{
+  background:#111827;
+  color:white;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-    .saved-count {
-      background: #22c55e;
-      color: #07130b;
-      padding: 7px 12px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-    }
+.logo{
+  font-size:26px;
+  font-weight:800;
+}
 
-    .hero {
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      padding: 55px 20px;
-      text-align: center;
-    }
+.logo span{
+  color:#22c55e;
+}
 
-    .hero h2 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+.saved-count{
+  background:#22c55e;
+  color:#07130b;
+  padding:7px 12px;
+  border-radius:20px;
+  font-weight:bold;
+}
 
-    .hero p {
-      color: #d1d5db;
-      font-size: 18px;
-      max-width: 650px;
-      margin: auto;
-    }
+.hero{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+  padding:45px 20px 65px;
+  text-align:center;
+}
 
-    .search-panel {
-      max-width: 1100px;
-      margin: -25px auto 30px;
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-      position: relative;
-      z-index: 5;
-    }
+.hero h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
 
-    .search-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto;
-      gap: 10px;
-    }
+.hero p{
+  color:#d1d5db;
+  max-width:650px;
+  margin:auto;
+  font-size:17px;
+  line-height:1.5;
+}
 
-    input,
-    select,
-    button {
-      font: inherit;
-    }
+.search-panel{
+  max-width:1100px;
+  margin:-28px auto 25px;
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+  position:relative;
+  z-index:5;
+}
 
-    input,
-    select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      outline: none;
-    }
+.search-row{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr auto;
+  gap:9px;
+}
 
-    input:focus,
-    select:focus {
-      border-color: #22c55e;
-    }
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  outline:none;
+  background:white;
+}
 
-    .search-btn {
-      background: #22c55e;
-      border: none;
-      padding: 13px 20px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+input:focus,select:focus{
+  border-color:#22c55e;
+}
 
-    .search-btn:hover {
-      background: #16a34a;
-    }
+.search-btn{
+  background:#22c55e;
+  border:none;
+  border-radius:10px;
+  padding:13px 20px;
+  font-weight:bold;
+}
 
-    .source-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
+.search-btn:hover{
+  background:#16a34a;
+}
 
-    .source-buttons button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.extra-controls{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
 
-    .trade-btn {
-      background: #facc15;
-    }
+.extra-controls select{
+  flex:1;
+}
 
-    .facebook-btn {
-      background: #3b82f6;
-      color: white;
-    }
+.source-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
 
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 20px 50px;
-    }
+.source-buttons button{
+  flex:1;
+  border:none;
+  border-radius:10px;
+  padding:12px;
+  font-weight:bold;
+}
 
-    .top-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
+.trade-btn{
+  background:#facc15;
+}
 
-    .top-line h2 {
-      font-size: 24px;
-    }
+.facebook-btn{
+  background:#3b82f6;
+  color:white;
+}
 
-    #status {
-      color: #6b7280;
-      font-size: 14px;
-    }
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:0 20px 50px;
+}
 
-    .listings {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
+.top-line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
 
-    .listing-card {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      transition: transform 0.15s, box-shadow 0.15s;
-      cursor: pointer;
-      position: relative;
-    }
+.top-line h2{
+  font-size:24px;
+}
 
-    .listing-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.14);
-    }
+#status{
+  color:#6b7280;
+  font-size:14px;
+}
 
-    .listing-image {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      background: #e5e7eb;
-      display: block;
-    }
+.listings{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
 
-    .no-image {
-      height: 190px;
-      background: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 45px;
-    }
+.listing-card{
+  background:white;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  transition:.15s;
+  cursor:pointer;
+  position:relative;
+}
 
-    .listing-content {
-      padding: 16px;
-    }
+.listing-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(0,0,0,.14);
+}
 
-    .listing-title {
-      font-size: 19px;
-      font-weight: bold;
-      margin-bottom: 8px;
-      padding-right: 30px;
-    }
+.listing-image{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  display:block;
+  background:#e5e7eb;
+}
 
-    .price {
-      font-size: 23px;
-      font-weight: bold;
-      color: #16a34a;
-      margin-bottom: 8px;
-    }
+.no-image{
+  height:190px;
+  background:#e5e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+}
 
-    .location {
-      color: #6b7280;
-      margin-bottom: 10px;
-    }
+.listing-content{
+  padding:16px;
+}
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+.listing-title{
+  font-size:19px;
+  font-weight:bold;
+  margin-bottom:8px;
+  padding-right:35px;
+}
 
-    .tag {
-      background: #f3f4f6;
-      border-radius: 20px;
-      padding: 5px 8px;
-      font-size: 12px;
-      color: #374151;
-    }
+.price{
+  font-size:23px;
+  font-weight:bold;
+  color:#16a34a;
+  margin-bottom:8px;
+}
 
-    .source {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #6b7280;
-    }
+.location{
+  color:#6b7280;
+  margin-bottom:10px;
+}
 
-    .heart {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 38px;
-      height: 38px;
-      border: none;
-      border-radius: 50%;
-      background: white;
-      font-size: 21px;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-      z-index: 3;
-    }
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
 
-    .heart.saved {
-      color: #ef4444;
-    }
+.tag{
+  background:#f3f4f6;
+  border-radius:20px;
+  padding:5px 8px;
+  font-size:12px;
+  color:#374151;
+}
 
-    .empty {
-      background: white;
-      border-radius: 16px;
-      padding: 45px 20px;
-      text-align: center;
-      color: #6b7280;
-      grid-column: 1 / -1;
-    }
+.source{
+  margin-top:12px;
+  font-size:12px;
+  color:#6b7280;
+}
 
-    /* MODAL */
+.heart{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:white;
+  font-size:22px;
+  box-shadow:0 3px 10px rgba(0,0,0,.15);
+  z-index:3;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.65);
-      z-index: 500;
-      padding: 20px;
-      overflow-y: auto;
-    }
+.heart.saved{
+  color:#ef4444;
+}
 
-    .modal.show {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    }
+.empty{
+  background:white;
+  border-radius:16px;
+  padding:45px 20px;
+  text-align:center;
+  color:#6b7280;
+  grid-column:1/-1;
+}
 
-    .modal-box {
-      background: white;
-      width: 100%;
-      max-width: 700px;
-      border-radius: 20px;
-      margin: 30px auto;
-      overflow: hidden;
-      position: relative;
-    }
+.empty h3{
+  color:#111827;
+  margin-bottom:8px;
+}
 
-    .modal-image {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      background: #e5e7eb;
-    }
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:72px;
+  background:white;
+  border-top:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:450;
+  box-shadow:0 -4px 18px rgba(0,0,0,.08);
+  padding-bottom:env(safe-area-inset-bottom);
+}
 
-    .modal-body {
-      padding: 25px;
-    }
+.bottom-nav button{
+  border:0;
+  background:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:12px;
+  color:#6b7280;
+  font-weight:bold;
+  padding:7px 20px;
+}
 
-    .close {
-      position: absolute;
-      right: 15px;
-      top: 15px;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: white;
-      font-size: 25px;
-      cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
-      z-index: 2;
-    }
+.bottom-nav button.active{
+  color:#16a34a;
+}
 
-    .modal-body h2 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
+.nav-icon{
+  font-size:22px;
+}
 
-    .modal-price {
-      color: #16a34a;
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:500;
+  padding:20px;
+  overflow-y:auto;
+}
 
-    .description {
-      line-height: 1.6;
-      color: #374151;
-      margin: 18px 0;
-      white-space: pre-wrap;
-    }
+.modal.show{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 20px 0;
-    }
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:700px;
+  border-radius:20px;
+  margin:20px auto;
+  overflow:hidden;
+  position:relative;
+}
 
-    .detail {
-      background: #f3f4f6;
-      padding: 12px;
-      border-radius: 10px;
-    }
+.modal-image{
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+  display:block;
+}
 
-    .detail strong {
-      display: block;
-      font-size: 12px;
-      color: #6b7280;
-      margin-bottom: 4px;
-    }
+.modal-body{
+  padding:25px;
+}
 
-    .listing-link {
-      display: block;
-      text-align: center;
-      background: #111827;
-      color: white;
-      padding: 14px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.close{
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:white;
+  font-size:25px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+  z-index:2;
+}
 
-    .listing-link:hover {
-      background: #374151;
-    }
+.modal-body h2{
+  font-size:30px;
+  margin-bottom:10px;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #6b7280;
-      font-size: 13px;
-    }
+.modal-price{
+  color:#16a34a;
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
 
-    @media (max-width: 850px) {
-      .listings {
-        grid-template-columns: repeat(2, 1fr);
-      }
+.description{
+  line-height:1.6;
+  color:#374151;
+  margin:18px 0;
+  white-space:pre-wrap;
+}
 
-      .search-row {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:20px 0;
+}
 
-    @media (max-width: 550px) {
-      .hero h2 {
-        font-size: 32px;
-      }
+.detail{
+  background:#f3f4f6;
+  padding:12px;
+  border-radius:10px;
+}
 
-      .listings {
-        grid-template-columns: 1fr;
-      }
+.detail strong{
+  display:block;
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:4px;
+}
 
-      .search-row {
-        grid-template-columns: 1fr;
-      }
+.listing-link{
+  display:block;
+  text-align:center;
+  background:#111827;
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+}
 
-      .source-buttons {
-        flex-direction: column;
-      }
+footer{
+  text-align:center;
+  padding:30px;
+  color:#6b7280;
+  font-size:13px;
+}
 
-      .detail-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+@media(max-width:900px){
+  .search-row{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .listings{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:550px){
+  .hero h1{
+    font-size:32px;
+  }
+
+  .search-row{
+    grid-template-columns:1fr;
+  }
+
+  .extra-controls{
+    flex-direction:column;
+  }
+
+  .source-buttons{
+    flex-direction:column;
+  }
+
+  .listings{
+    grid-template-columns:1fr;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .bottom-nav button{
+    padding:7px 12px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Deal<span>Finder</span></h1>
+  <div class="logo">Deal<span>Finder</span></div>
+
   <div class="saved-count">
     ❤️ <span id="savedCount">0</span>
   </div>
 </header>
 
 <section class="hero">
-  <h2>Find the deal. 🚗</h2>
+  <h1>Find the deal. 🚗</h1>
+
   <p>
-    Search cars, motorbikes and parts in one place.
+    Cars, motorbikes and parts in one place.
     Find something cool without hunting through a million listings.
   </p>
 </section>
@@ -446,7 +502,7 @@
       id="searchInput"
       type="text"
       placeholder="Search S13, MX-5, CBR, SR20..."
-    />
+    >
 
     <select id="categorySelect">
       <option value="">All categories</option>
@@ -458,8 +514,14 @@
     <input
       id="maxPrice"
       type="number"
-      placeholder="Max price NZ$"
-    />
+      placeholder="Max price"
+    >
+
+    <select id="sortSelect">
+      <option value="newest">Newest</option>
+      <option value="price-low">Price: Low → High</option>
+      <option value="price-high">Price: High → Low</option>
+    </select>
 
     <button class="search-btn" onclick="applyFilters()">
       Search
@@ -484,8 +546,13 @@
 <main>
 
   <div class="top-line">
-    <h2>Listings</h2>
-    <div id="status">Loading...</div>
+
+    <h2 id="pageTitle">Listings</h2>
+
+    <div id="status">
+      Loading...
+    </div>
+
   </div>
 
   <div id="listings" class="listings"></div>
@@ -496,7 +563,24 @@
   DealFinder — find cool stuff without the endless scrolling.
 </footer>
 
-<!-- LISTING MODAL -->
+<nav class="bottom-nav">
+
+  <button id="navHome" class="active" onclick="showHome()">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+
+  <button id="navSearch" onclick="focusSearch()">
+    <span class="nav-icon">🔎</span>
+    Search
+  </button>
+
+  <button id="navSaved" onclick="showSaved()">
+    <span class="nav-icon">❤️</span>
+    Saved
+  </button>
+
+</nav>
 
 <div id="modal" class="modal">
 
@@ -524,6 +608,16 @@
         <div class="detail">
           <strong>Location</strong>
           <span id="modalLocation"></span>
+        </div>
+
+        <div class="detail">
+          <strong>Transmission</strong>
+          <span id="modalTransmission"></span>
+        </div>
+
+        <div class="detail">
+          <strong>Drive</strong>
+          <span id="modalDrive"></span>
         </div>
 
         <div class="detail">
@@ -556,358 +650,242 @@
 
 <script type="module">
 
-  /* =========================================================
-     SUPABASE
-     ========================================================= */
+import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  import {
-    createClient
-  } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  const SUPABASE_URL =
-    "https://lsjhxztfvxnukennnvgq.supabase.co";
+/* =========================
+   SUPABASE
+========================= */
 
-  const SUPABASE_KEY =
-    "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
+const SUPABASE_URL =
+  "https://lsjhxztfvxnukennnvgq.supabase.co";
 
-  const supabase = createClient(
+const SUPABASE_KEY =
+  "sb_publishable_sYotvwrOC6DYp7KLPjV4jw__JAmPqU1";
+
+const supabase =
+  createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
 
-  /* =========================================================
-     STATE
-     ========================================================= */
+/* =========================
+   STATE
+========================= */
 
-  let allListings = [];
+let allListings = [];
 
-  let savedListings =
-    JSON.parse(localStorage.getItem("dealfinder_saved") || "[]");
+let currentListings = [];
+
+let savedListings =
+  JSON.parse(
+    localStorage.getItem("dealfinder_saved") || "[]"
+  );
 
 
-  /* =========================================================
-     HELPERS
-     ========================================================= */
+/* =========================
+   HELPERS
+========================= */
 
-  function escapeHTML(value) {
+function escapeHTML(value){
 
-    if (value === null || value === undefined) {
-      return "";
-    }
-
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  if(
+    value === null ||
+    value === undefined
+  ){
+    return "";
   }
 
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-  function money(value) {
 
-    if (
-      value === null ||
-      value === undefined ||
-      value === ""
-    ) {
-      return "Price not listed";
-    }
+function money(value){
 
-    const number = Number(
-      String(value).replace(/[^0-9.-]/g, "")
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return "Price not listed";
+  }
+
+  const number =
+    Number(
+      String(value)
+        .replace(/[^0-9.-]/g,"")
     );
 
-    if (Number.isNaN(number)) {
-      return escapeHTML(value);
-    }
-
-    return "NZ$" +
-      number.toLocaleString("en-NZ");
+  if(Number.isNaN(number)){
+    return escapeHTML(value);
   }
 
+  return "NZ$" +
+    number.toLocaleString("en-NZ");
+}
 
-  function getListingId(listing) {
 
-    return String(
-      listing.id ||
-      listing.external_id ||
-      listing.listing_url ||
-      listing.url ||
-      listing.title
+function getListingId(listing){
+
+  return String(
+    listing.id ||
+    listing.external_id ||
+    listing.listing_url ||
+    listing.title
+  );
+}
+
+
+function isSaved(listing){
+
+  return savedListings.includes(
+    getListingId(listing)
+  );
+}
+
+
+function updateSavedCount(){
+
+  document.getElementById(
+    "savedCount"
+  ).textContent =
+    savedListings.length;
+}
+
+
+function saveState(){
+
+  localStorage.setItem(
+    "dealfinder_saved",
+    JSON.stringify(savedListings)
+  );
+
+  updateSavedCount();
+}
+
+
+function getPrice(listing){
+
+  const number =
+    Number(
+      String(listing.price || "")
+        .replace(/[^0-9.-]/g,"")
     );
 
-  }
+  return Number.isNaN(number)
+    ? Infinity
+    : number;
+}
 
 
-  function isSaved(listing) {
+/* =========================
+   LOAD LISTINGS
+========================= */
 
-    return savedListings.includes(
-      getListingId(listing)
-    );
+async function loadListings(){
 
-  }
+  const status =
+    document.getElementById("status");
 
+  status.textContent =
+    "Loading listings...";
 
-  function saveState() {
+  try{
 
-    localStorage.setItem(
-      "dealfinder_saved",
-      JSON.stringify(savedListings)
-    );
-
-    updateSavedCount();
-
-  }
-
-
-  function updateSavedCount() {
-
-    document.getElementById("savedCount").textContent =
-      savedListings.length;
-
-  }
-
-
-  /* =========================================================
-     LOAD REAL SUPABASE LISTINGS
-     ========================================================= */
-
-  async function loadListings() {
-
-    const status =
-      document.getElementById("status");
-
-    status.textContent = "Loading listings...";
-
-    try {
-
-      const {
-        data,
-        error
-      } = await supabase
+    const {
+      data,
+      error
+    } =
+      await supabase
         .from("listings")
         .select("*")
-        .order("created_at", {
-          ascending: false
+        .eq("is_active",true)
+        .order("created_at",{
+          ascending:false
         });
 
-      if (error) {
-        throw error;
-      }
-
-      allListings = data || [];
-
-      renderListings(allListings);
-
-      status.textContent =
-        `${allListings.length} listing${allListings.length === 1 ? "" : "s"}`;
-
-    } catch (error) {
-
-      console.error(error);
-
-      status.textContent =
-        "Could not load listings";
-
-      document.getElementById("listings").innerHTML = `
-        <div class="empty">
-          <h3>⚠️ Couldn't load listings</h3>
-          <p>
-            Check your Supabase connection and make sure
-            the <strong>listings</strong> table exists.
-          </p>
-        </div>
-      `;
-
+    if(error){
+      throw error;
     }
 
+    allListings =
+      data || [];
+
+    applyFilters();
+
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      "Could not load listings";
+
+    document.getElementById(
+      "listings"
+    ).innerHTML = `
+      <div class="empty">
+        <h3>⚠️ Couldn't load listings</h3>
+        <p>
+          Check the Supabase connection
+          and listings table.
+        </p>
+      </div>
+    `;
   }
+}
 
 
-  /* =========================================================
-     RENDER LISTINGS
-     ========================================================= */
+/* =========================
+   FILTERING
+========================= */
 
-  function renderListings(listings) {
+window.applyFilters = function(){
 
-    const container =
-      document.getElementById("listings");
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
 
-    if (!listings.length) {
+  const category =
+    document.getElementById(
+      "categorySelect"
+    ).value;
 
-      container.innerHTML = `
-        <div class="empty">
-          <h3>No listings found 😭</h3>
-          <p>
-            Try another search or check back when
-            new listings are added.
-          </p>
-        </div>
-      `;
+  const maxPriceValue =
+    document.getElementById(
+      "maxPrice"
+    ).value;
 
-      return;
-    }
+  const maxPrice =
+    maxPriceValue
+      ? Number(maxPriceValue)
+      : Infinity;
 
-
-    container.innerHTML =
-      listings.map((listing, index) => {
-
-        const title =
-          listing.title || "Untitled listing";
-
-        const price =
-          listing.price;
-
-        const description =
-          listing.description ||
-          "No description available.";
-
-        const category =
-          listing.category ||
-          "Other";
-
-        const location =
-          listing.location ||
-          "Location not listed";
-
-        const source =
-          listing.source ||
-          "Unknown source";
-
-        const image =
-          listing.image_url ||
-          listing.image ||
-          "";
-
-        const saved =
-          isSaved(listing);
+  const sort =
+    document.getElementById(
+      "sortSelect"
+    ).value;
 
 
-        return `
-
-          <article
-            class="listing-card"
-            onclick="openListing(${index})"
-          >
-
-            <button
-              class="heart ${saved ? "saved" : ""}"
-              onclick="event.stopPropagation(); toggleSaved(${index})"
-              aria-label="Save listing"
-            >
-              ${saved ? "❤️" : "♡"}
-            </button>
-
-            ${
-              image
-              ?
-              `<img
-                class="listing-image"
-                src="${escapeHTML(image)}"
-                alt="${escapeHTML(title)}"
-                onerror="this.outerHTML='<div class=&quot;no-image&quot;>🚗</div>'"
-              >`
-              :
-              `<div class="no-image">🚗</div>`
-            }
-
-            <div class="listing-content">
-
-              <div class="listing-title">
-                ${escapeHTML(title)}
-              </div>
-
-              <div class="price">
-                ${money(price)}
-              </div>
-
-              <div class="location">
-                📍 ${escapeHTML(location)}
-              </div>
-
-              <div class="tags">
-
-                <span class="tag">
-                  ${escapeHTML(category)}
-                </span>
-
-                ${
-                  listing.transmission
-                  ?
-                  `<span class="tag">
-                    ${escapeHTML(listing.transmission)}
-                  </span>`
-                  :
-                  ""
-                }
-
-                ${
-                  listing.drive
-                  ?
-                  `<span class="tag">
-                    ${escapeHTML(listing.drive)}
-                  </span>`
-                  :
-                  ""
-                }
-
-              </div>
-
-              <div class="source">
-                Source: ${escapeHTML(source)}
-              </div>
-
-            </div>
-
-          </article>
-
-        `;
-
-      }).join("");
-
-  }
-
-
-  /* =========================================================
-     SEARCH / FILTER
-     ========================================================= */
-
-  window.applyFilters = function() {
-
-    const search =
-      document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-    const category =
-      document
-        .getElementById("categorySelect")
-        .value;
-
-    const maxPriceValue =
-      document
-        .getElementById("maxPrice")
-        .value;
-
-    const maxPrice =
-      maxPriceValue
-      ?
-      Number(maxPriceValue)
-      :
-      Infinity;
-
-
-    const filtered =
-      allListings.filter(listing => {
+  let filtered =
+    allListings.filter(
+      listing => {
 
         const searchable = [
 
           listing.title,
           listing.description,
+          listing.details,
           listing.category,
           listing.location,
           listing.source,
@@ -920,13 +898,6 @@
         .toLowerCase();
 
 
-        const numberPrice =
-          Number(
-            String(listing.price || "")
-              .replace(/[^0-9.-]/g, "")
-          );
-
-
         const matchesSearch =
           !search ||
           searchable.includes(search);
@@ -934,16 +905,17 @@
 
         const matchesCategory =
           !category ||
-          String(listing.category || "")
-            .toLowerCase() ===
+          String(
+            listing.category || ""
+          ).toLowerCase() ===
           category.toLowerCase();
 
 
         const matchesPrice =
           !maxPriceValue ||
           (
-            !Number.isNaN(numberPrice) &&
-            numberPrice <= maxPrice
+            getPrice(listing) <=
+            maxPrice
           );
 
 
@@ -952,272 +924,581 @@
           matchesCategory &&
           matchesPrice
         );
-
-      });
-
-
-    renderListings(filtered);
-
-    document.getElementById("status").textContent =
-      `${filtered.length} result${filtered.length === 1 ? "" : "s"}`;
-
-  };
-
-
-  /* =========================================================
-     SAVED LISTINGS
-     ========================================================= */
-
-  window.toggleSaved = function(index) {
-
-    const listing =
-      getCurrentlyDisplayedListings()[index];
-
-    if (!listing) return;
-
-    const id =
-      getListingId(listing);
-
-    if (savedListings.includes(id)) {
-
-      savedListings =
-        savedListings.filter(
-          savedId => savedId !== id
-        );
-
-    } else {
-
-      savedListings.push(id);
-
-    }
-
-    saveState();
-
-    applyFilters();
-
-  };
-
-
-  function getCurrentlyDisplayedListings() {
-
-    const search =
-      document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-    const category =
-      document
-        .getElementById("categorySelect")
-        .value;
-
-    const maxPriceValue =
-      document
-        .getElementById("maxPrice")
-        .value;
-
-    const maxPrice =
-      maxPriceValue
-      ?
-      Number(maxPriceValue)
-      :
-      Infinity;
-
-
-    return allListings.filter(listing => {
-
-      const searchable = [
-
-        listing.title,
-        listing.description,
-        listing.category,
-        listing.location,
-        listing.source,
-        listing.transmission,
-        listing.drive
-
-      ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-
-      const numberPrice =
-        Number(
-          String(listing.price || "")
-            .replace(/[^0-9.-]/g, "")
-        );
-
-
-      return (
-
-        (!search ||
-          searchable.includes(search))
-
-        &&
-
-        (!category ||
-          String(listing.category || "")
-            .toLowerCase() ===
-          category.toLowerCase())
-
-        &&
-
-        (!maxPriceValue ||
-          (
-            !Number.isNaN(numberPrice) &&
-            numberPrice <= maxPrice
-          ))
-
-      );
-
-    });
-
-  }
-
-
-  /* =========================================================
-     OPEN LISTING
-     ========================================================= */
-
-  window.openListing = function(index) {
-
-    const listing =
-      getCurrentlyDisplayedListings()[index];
-
-    if (!listing) return;
-
-
-    document.getElementById("modalTitle").textContent =
-      listing.title || "Untitled listing";
-
-
-    document.getElementById("modalPrice").textContent =
-      money(listing.price);
-
-
-    document.getElementById("modalDescription").textContent =
-      listing.description ||
-      "No description available.";
-
-
-    document.getElementById("modalCategory").textContent =
-      listing.category ||
-      "Not listed";
-
-
-    document.getElementById("modalLocation").textContent =
-      listing.location ||
-      "Not listed";
-
-
-    document.getElementById("modalSource").textContent =
-      listing.source ||
-      "Unknown";
-
-
-    document.getElementById("modalChecked").textContent =
-      formatDate(
-        listing.last_checked ||
-        listing.updated_at ||
-        listing.created_at
-      );
-
-
-    const link =
-      listing.listing_url ||
-      listing.url ||
-      "#";
-
-
-    const modalLink =
-      document.getElementById("modalLink");
-
-    modalLink.href = link;
-
-
-    if (link === "#") {
-
-      modalLink.style.display = "none";
-
-    } else {
-
-      modalLink.style.display = "block";
-
-    }
-
-
-    const image =
-      listing.image_url ||
-      listing.image ||
-      "";
-
-
-    const modalImage =
-      document.getElementById("modalImage");
-
-
-    if (image) {
-
-      modalImage.innerHTML = `
-        <img
-          class="modal-image"
-          src="${escapeHTML(image)}"
-          alt="${escapeHTML(listing.title || "")}"
-        >
-      `;
-
-    } else {
-
-      modalImage.innerHTML = `
-        <div class="no-image">
-          🚗
-        </div>
-      `;
-
-    }
-
-
-    document
-      .getElementById("modal")
-      .classList.add("show");
-
-  };
-
-
-  /* =========================================================
-     CLOSE MODAL
-     ========================================================= */
-
-  window.closeModal = function() {
-
-    document
-      .getElementById("modal")
-      .classList.remove("show");
-
-  };
-
-
-  document
-    .getElementById("modal")
-    .addEventListener(
-      "click",
-      function(event) {
-
-        if (event.target === this) {
-          closeModal();
-        }
-
       }
     );
 
 
-  document.addEventListener(
-    "keydown",
-    function(event) {
+  if(sort === "price-low"){
 
-      if (event.key === "Escape") {
+    filtered.sort(
+      (a,b) =>
+        getPrice(a) -
+        getPrice(b)
+    );
+
+  }else if(sort === "price-high"){
+
+    filtered.sort(
+      (a,b) =>
+        getPrice(b) -
+        getPrice(a)
+    );
+
+  }else{
+
+    filtered.sort(
+      (a,b) =>
+        new Date(
+          b.created_at || 0
+        ) -
+        new Date(
+          a.created_at || 0
+        )
+    );
+  }
+
+
+  currentListings =
+    filtered;
+
+  renderListings(
+    filtered
+  );
+
+
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    "Listings";
+
+
+  document.getElementById(
+    "status"
+  ).textContent =
+    `${filtered.length} result${
+      filtered.length === 1
+        ? ""
+        : "s"
+    }`;
+};
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderListings(listings){
+
+  const container =
+    document.getElementById(
+      "listings"
+    );
+
+
+  if(!listings.length){
+
+    container.innerHTML = `
+      <div class="empty">
+
+        <h3>
+          No listings found 😭
+        </h3>
+
+        <p>
+          Try changing your search
+          or filters.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    listings
+      .map(
+        (listing,index) => {
+
+          const title =
+            listing.title ||
+            "Untitled listing";
+
+          const image =
+            listing.image_url ||
+            listing.image ||
+            "";
+
+          const description =
+            listing.description ||
+            listing.details ||
+            "No description available.";
+
+          const category =
+            listing.category ||
+            "Other";
+
+          const location =
+            listing.location ||
+            "Location not listed";
+
+          const source =
+            listing.source ||
+            "Unknown";
+
+          const saved =
+            isSaved(listing);
+
+
+          return `
+
+            <article
+              class="listing-card"
+              onclick="openListing(${index})"
+            >
+
+              <button
+                class="heart ${
+                  saved ? "saved" : ""
+                }"
+                onclick="
+                  event.stopPropagation();
+                  toggleSaved(${index});
+                "
+              >
+                ${
+                  saved
+                    ? "❤️"
+                    : "♡"
+                }
+              </button>
+
+
+              ${
+                image
+
+                ?
+
+                `
+                <img
+                  class="listing-image"
+                  src="${escapeHTML(image)}"
+                  alt="${escapeHTML(title)}"
+                  onerror="
+                    this.outerHTML=
+                    '<div class=&quot;no-image&quot;>🚗</div>'
+                  "
+                >
+                `
+
+                :
+
+                `
+                <div class="no-image">
+                  🚗
+                </div>
+                `
+              }
+
+
+              <div class="listing-content">
+
+                <div class="listing-title">
+                  ${escapeHTML(title)}
+                </div>
+
+                <div class="price">
+                  ${money(listing.price)}
+                </div>
+
+                <div class="location">
+                  📍 ${escapeHTML(location)}
+                </div>
+
+                <div class="tags">
+
+                  <span class="tag">
+                    ${escapeHTML(category)}
+                  </span>
+
+                  ${
+                    listing.transmission
+                    ?
+                    `
+                    <span class="tag">
+                      ${escapeHTML(
+                        listing.transmission
+                      )}
+                    </span>
+                    `
+                    :
+                    ""
+                  }
+
+                  ${
+                    listing.drive
+                    ?
+                    `
+                    <span class="tag">
+                      ${escapeHTML(
+                        listing.drive
+                      )}
+                    </span>
+                    `
+                    :
+                    ""
+                  }
+
+                </div>
+
+                <div class="source">
+                  Source:
+                  ${escapeHTML(source)}
+                </div>
+
+              </div>
+
+            </article>
+
+          `;
+        }
+      )
+      .join("");
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+window.toggleSaved =
+function(index){
+
+  const listing =
+    currentListings[index];
+
+  if(!listing){
+    return;
+  }
+
+  const id =
+    getListingId(listing);
+
+
+  if(
+    savedListings.includes(id)
+  ){
+
+    savedListings =
+      savedListings.filter(
+        savedId =>
+          savedId !== id
+      );
+
+  }else{
+
+    savedListings.push(id);
+
+  }
+
+
+  saveState();
+
+  renderListings(
+    currentListings
+  );
+};
+
+
+/* =========================
+   SAVED PAGE
+========================= */
+
+window.showSaved =
+function(){
+
+  setNav("navSaved");
+
+  const saved =
+    allListings.filter(
+      listing =>
+        savedListings.includes(
+          getListingId(listing)
+        )
+    );
+
+
+  currentListings =
+    saved;
+
+
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    "Saved";
+
+
+  document.getElementById(
+    "status"
+  ).textContent =
+    `${saved.length} saved`;
+
+
+  renderListings(saved);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+};
+
+
+/* =========================
+   HOME
+========================= */
+
+window.showHome =
+function(){
+
+  setNav("navHome");
+
+  applyFilters();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+};
+
+
+/* =========================
+   SEARCH TAB
+========================= */
+
+window.focusSearch =
+function(){
+
+  setNav("navSearch");
+
+  document
+    .querySelector(".search-panel")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+
+  setTimeout(
+    () =>
+      document
+        .getElementById(
+          "searchInput"
+        )
+        .focus(),
+    400
+  );
+};
+
+
+/* =========================
+   NAV
+========================= */
+
+function setNav(active){
+
+  document
+    .querySelectorAll(
+      ".bottom-nav button"
+    )
+    .forEach(
+      button =>
+        button.classList.remove(
+          "active"
+        )
+    );
+
+
+  const button =
+    document.getElementById(
+      active
+    );
+
+  if(button){
+    button.classList.add(
+      "active"
+    );
+  }
+}
+
+
+/* =========================
+   OPEN LISTING
+========================= */
+
+window.openListing =
+function(index){
+
+  const listing =
+    currentListings[index];
+
+  if(!listing){
+    return;
+  }
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    listing.title ||
+    "Untitled listing";
+
+
+  document.getElementById(
+    "modalPrice"
+  ).textContent =
+    money(listing.price);
+
+
+  document.getElementById(
+    "modalDescription"
+  ).textContent =
+    listing.description ||
+    listing.details ||
+    "No description available.";
+
+
+  document.getElementById(
+    "modalCategory"
+  ).textContent =
+    listing.category ||
+    "Not listed";
+
+
+  document.getElementById(
+    "modalLocation"
+  ).textContent =
+    listing.location ||
+    "Not listed";
+
+
+  document.getElementById(
+    "modalTransmission"
+  ).textContent =
+    listing.transmission ||
+    "Not listed";
+
+
+  document.getElementById(
+    "modalDrive"
+  ).textContent =
+    listing.drive ||
+    "Not listed";
+
+
+  document.getElementById(
+    "modalSource"
+  ).textContent =
+    listing.source ||
+    "Unknown";
+
+
+  document.getElementById(
+    "modalChecked"
+  ).textContent =
+    formatDate(
+      listing.last_checked ||
+      listing.updated_at ||
+      listing.created_at
+    );
+
+
+  const link =
+    listing.listing_url ||
+    listing.url ||
+    "#";
+
+
+  const modalLink =
+    document.getElementById(
+      "modalLink"
+    );
+
+
+  modalLink.href =
+    link;
+
+
+  modalLink.style.display =
+    link === "#"
+      ? "none"
+      : "block";
+
+
+  const image =
+    listing.image_url ||
+    listing.image ||
+    "";
+
+
+  const modalImage =
+    document.getElementById(
+      "modalImage"
+    );
+
+
+  if(image){
+
+    modalImage.innerHTML = `
+      <img
+        class="modal-image"
+        src="${escapeHTML(image)}"
+        alt="${escapeHTML(
+          listing.title || ""
+        )}"
+      >
+    `;
+
+  }else{
+
+    modalImage.innerHTML = `
+      <div class="no-image">
+        🚗
+      </div>
+    `;
+  }
+
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+};
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+window.closeModal =
+function(){
+
+  document
+    .getElementById("modal")
+    .classList.remove(
+      "show"
+    );
+};
+
+
+document
+  .getElementById("modal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(
+        event.target === this
+      ){
         closeModal();
       }
 
@@ -1225,125 +1506,174 @@
   );
 
 
-  /* =========================================================
-     DATE
-     ========================================================= */
+document.addEventListener(
+  "keydown",
+  event => {
 
-  function formatDate(value) {
-
-    if (!value) {
-      return "Not available";
+    if(
+      event.key === "Escape"
+    ){
+      closeModal();
     }
-
-    const date =
-      new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-      return "Not available";
-    }
-
-    return date.toLocaleString(
-      "en-NZ",
-      {
-        dateStyle: "medium",
-        timeStyle: "short"
-      }
-    );
 
   }
+);
 
 
-  /* =========================================================
-     TRADE ME SEARCH
-     ========================================================= */
+/* =========================
+   DATE
+========================= */
 
-  window.openTradeMe = function() {
+function formatDate(value){
 
-    const query =
-      document
-        .getElementById("searchInput")
-        .value
-        .trim();
+  if(!value){
+    return "Not available";
+  }
 
+  const date =
+    new Date(value);
 
-    const url =
-      "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
-      encodeURIComponent(query);
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "Not available";
+  }
 
-
-    window.open(
-      url,
-      "_blank"
-    );
-
-  };
-
-
-  /* =========================================================
-     FACEBOOK MARKETPLACE SEARCH
-     ========================================================= */
-
-  window.openFacebook = function() {
-
-    const query =
-      document
-        .getElementById("searchInput")
-        .value
-        .trim();
+  return date.toLocaleString(
+    "en-NZ",
+    {
+      dateStyle:"medium",
+      timeStyle:"short"
+    }
+  );
+}
 
 
-    const url =
-      "https://www.facebook.com/marketplace/search/?query=" +
-      encodeURIComponent(query);
+/* =========================
+   TRADE ME
+========================= */
+
+window.openTradeMe =
+function(){
+
+  const query =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim();
 
 
-    window.open(
-      url,
-      "_blank"
-    );
-
-  };
+  const url =
+    "https://www.trademe.co.nz/a/motors/cars/search?search_string=" +
+    encodeURIComponent(query);
 
 
-  /* =========================================================
-     ENTER KEY SEARCH
-     ========================================================= */
+  window.open(
+    url,
+    "_blank"
+  );
+};
 
-  document
-    .getElementById("searchInput")
-    .addEventListener(
-      "keydown",
-      function(event) {
 
-        if (event.key === "Enter") {
-          applyFilters();
-        }
+/* =========================
+   FACEBOOK
+========================= */
 
+window.openFacebook =
+function(){
+
+  const query =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim();
+
+
+  const url =
+    "https://www.facebook.com/marketplace/search/?query=" +
+    encodeURIComponent(query);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+};
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key === "Enter"
+      ){
+        applyFilters();
       }
-    );
+
+    }
+  );
 
 
-  document
-    .getElementById("maxPrice")
-    .addEventListener(
-      "keydown",
-      function(event) {
+document
+  .getElementById(
+    "maxPrice"
+  )
+  .addEventListener(
+    "keydown",
+    event => {
 
-        if (event.key === "Enter") {
-          applyFilters();
-        }
-
+      if(
+        event.key === "Enter"
+      ){
+        applyFilters();
       }
-    );
+
+    }
+  );
 
 
-  /* =========================================================
-     START APP
-     ========================================================= */
+document
+  .getElementById(
+    "sortSelect"
+  )
+  .addEventListener(
+    "change",
+    applyFilters
+  );
 
-  updateSavedCount();
 
-  loadListings();
+document
+  .getElementById(
+    "categorySelect"
+  )
+  .addEventListener(
+    "change",
+    applyFilters
+  );
+
+
+/* =========================
+   START
+========================= */
+
+updateSavedCount();
+
+loadListings();
 
 </script>
 
